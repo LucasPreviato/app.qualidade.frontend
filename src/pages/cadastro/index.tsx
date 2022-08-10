@@ -1,10 +1,14 @@
-import Link from 'next/link'
-import React from 'react'
+import { CardButton } from '../../components/CardButton'
+import { SelectionPanel } from '../../components/SelectionPanel'
 
 export default function Cadastro() {
   return (
-    <Link href="/cadastro/faq">
-      <a className="m-3 p-3 rounded bg-teal-400">faq</a>
-    </Link>
+    <SelectionPanel>
+      <CardButton
+        icon="/assets/img/sidebar/iconRH.svg"
+        path="/cadastro/faq"
+        title="Teste"
+      />
+    </SelectionPanel>
   )
 }
