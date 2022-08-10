@@ -1,13 +1,11 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
 
-
 const Home: NextPage = () => {
   return (
     <>
-      <h1>Hello World!</h1>
-      <Link href="/teste">
-        <a>Teste</a>
+      <Link href="/cadastro">
+        <a className="m-3 p-3 rounded bg-teal-400">cadastro</a>
       </Link>
     </>
   )
