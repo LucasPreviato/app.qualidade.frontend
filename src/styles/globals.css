@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-dark-800 text-dark-200;
+@layer base {
+  body {
+    @apply bg-base-1 text-base-12;
+  }
+
+  body,
+  input,
+  select,
+  textarea,
+  button {
+    @apply font-sans;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-base-11 font-bold;
+  }
 }

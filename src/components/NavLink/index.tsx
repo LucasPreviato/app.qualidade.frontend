@@ -1,15 +1,13 @@
-/* eslint-disable react/display-name */
-import Link from 'next/link'
+import Link, { LinkProps } from 'next/link'
 import { ReactNode } from 'react'
 
-interface NavLinkProps {
+type NavLinkProps = LinkProps & {
   children: ReactNode
-  path: string
 }
 
-export function NavLink({ path, children }: NavLinkProps) {
+export function NavLink({ href, children, ...rest }: NavLinkProps) {
   return (
-    <Link href={path}>
+    <Link href={href} {...rest}>
       <a>{children}</a>
     </Link>
   )

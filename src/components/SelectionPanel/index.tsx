@@ -7,10 +7,8 @@ interface SelectionPanelProps {
 
 export function SelectionPanel({ children }: SelectionPanelProps) {
   return (
-    <div className="w-full md:p-12 p-10">
-      <Popover className="h-full bg-dark-600 rounded p-6 grid gap-4 grid-cols-6 place-items-center place-content-start">
-        {children}
-      </Popover>
-    </div>
+    <Popover className="grid flex-1 grid-cols-6 gap-4 p-6 rounded w bg-dark-600 place-items-center place-content-start">
+      {children}
+    </Popover>
   )
 }

@@ -3,124 +3,124 @@ import { GiSpyglass as LogIcon } from 'react-icons/gi'
 import { RiDeleteBin5Line as DeleteIcon } from 'react-icons/ri'
 import { MdAdd as AddIcon } from 'react-icons/md'
 import { ModalButton } from '../../../../components/ModalButton'
-import { StandardTable } from '../../../../components/StandardTable'
+// import { StandardTable } from '../../../../components/StandardTable'
 import { MyListbox } from '../../../../components/FilterLabel'
 import { Modal } from '../../../../components/Modal'
 import { useState } from 'react'
 
-const heading = [
-  {
-    title: 'ID',
-  },
-  {
-    title: 'Nome',
-  },
-  {
-    title: 'Responsável',
-  },
-  {
-    title: 'Status',
-  },
-]
+// const heading = [
+//   {
+//     title: 'ID',
+//   },
+//   {
+//     title: 'Nome',
+//   },
+//   {
+//     title: 'Responsável',
+//   },
+//   {
+//     title: 'Status',
+//   },
+// ]
 
-const tableBody = [
-  {
-    title: [
-      {
-        field: '00002',
-      },
-      {
-        field: 'Matriz',
-      },
-      {
-        field: 'João Braúna',
-      },
-      {
-        field: 'Ativo',
-      },
-    ],
-  },
-  {
-    title: [
-      {
-        field: '00002',
-      },
-      {
-        field: 'Matriz',
-      },
-      {
-        field: 'João Braúna',
-      },
-      {
-        field: 'Ativo',
-      },
-    ],
-  },
-  {
-    title: [
-      {
-        field: '00002',
-      },
-      {
-        field: 'Matriz',
-      },
-      {
-        field: 'João Braúna',
-      },
-      {
-        field: 'Ativo',
-      },
-    ],
-  },
-  {
-    title: [
-      {
-        field: '00002',
-      },
-      {
-        field: 'Matriz',
-      },
-      {
-        field: 'João Braúna',
-      },
-      {
-        field: 'Ativo',
-      },
-    ],
-  },
-  {
-    title: [
-      {
-        field: '00002',
-      },
-      {
-        field: 'Matriz',
-      },
-      {
-        field: 'João Braúna',
-      },
-      {
-        field: 'Ativo',
-      },
-    ],
-  },
-  {
-    title: [
-      {
-        field: '00002',
-      },
-      {
-        field: 'Matriz',
-      },
-      {
-        field: 'João Braúna',
-      },
-      {
-        field: 'Ativo',
-      },
-    ],
-  },
-]
+// const tableBody = [
+//   {
+//     title: [
+//       {
+//         field: '00002',
+//       },
+//       {
+//         field: 'Matriz',
+//       },
+//       {
+//         field: 'João Braúna',
+//       },
+//       {
+//         field: 'Ativo',
+//       },
+//     ],
+//   },
+//   {
+//     title: [
+//       {
+//         field: '00002',
+//       },
+//       {
+//         field: 'Matriz',
+//       },
+//       {
+//         field: 'João Braúna',
+//       },
+//       {
+//         field: 'Ativo',
+//       },
+//     ],
+//   },
+//   {
+//     title: [
+//       {
+//         field: '00002',
+//       },
+//       {
+//         field: 'Matriz',
+//       },
+//       {
+//         field: 'João Braúna',
+//       },
+//       {
+//         field: 'Ativo',
+//       },
+//     ],
+//   },
+//   {
+//     title: [
+//       {
+//         field: '00002',
+//       },
+//       {
+//         field: 'Matriz',
+//       },
+//       {
+//         field: 'João Braúna',
+//       },
+//       {
+//         field: 'Ativo',
+//       },
+//     ],
+//   },
+//   {
+//     title: [
+//       {
+//         field: '00002',
+//       },
+//       {
+//         field: 'Matriz',
+//       },
+//       {
+//         field: 'João Braúna',
+//       },
+//       {
+//         field: 'Ativo',
+//       },
+//     ],
+//   },
+//   {
+//     title: [
+//       {
+//         field: '00002',
+//       },
+//       {
+//         field: 'Matriz',
+//       },
+//       {
+//         field: 'João Braúna',
+//       },
+//       {
+//         field: 'Ativo',
+//       },
+//     ],
+//   },
+// ]
 
 export default function Colaborador() {
   const [isOpen, setIsOpen] = useState(false)
@@ -131,9 +131,9 @@ export default function Colaborador() {
 
   return (
     <>
-      <div className="w-full h-full p-6">
+      <div className="flex-1">
         <div className="grid gap-6 p-6 rounded bg-dark-500">
-          <div>
+          {/* <div>
             <StandardTable
               tbodyChildren={tableBody.map((tr) => (
                 <tr
@@ -153,7 +153,7 @@ export default function Colaborador() {
                 </th>
               ))}
             />
-          </div>
+          </div> */}
 
           <div>
             <MyListbox />
