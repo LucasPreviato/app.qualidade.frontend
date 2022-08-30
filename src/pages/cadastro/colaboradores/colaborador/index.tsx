@@ -131,14 +131,14 @@ export default function Colaborador() {
 
   return (
     <>
-      <div className="p-6 w-full h-full">
-        <div className="p-6 bg-dark-500 rounded grid gap-6">
+      <div className="w-full h-full p-6">
+        <div className="grid gap-6 p-6 rounded bg-dark-500">
           <div>
             <StandardTable
               tbodyChildren={tableBody.map((tr) => (
                 <tr
                   key={tr.title}
-                  className="flex hover:bg-dark-400 transition-colors"
+                  className="flex transition-colors hover:bg-dark-400"
                 >
                   {tr.title.map((td) => (
                     <td key={tr.title} className="flex-1 py-3">

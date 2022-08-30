@@ -1,12 +1,6 @@
-import { Popover } from '@headlessui/react'
-
+import { Menu } from '@headlessui/react'
 import { Button } from '../Button'
-
-const logoImg = {
-  src: '/assets/SysQuali.ico',
-  title: 'SysQuali',
-  path: '/',
-}
+import { NavLink } from '../NavLink'
 
 const BUTTONS_INFO = [
   {
@@ -15,111 +9,41 @@ const BUTTONS_INFO = [
     path: '/rotina',
   },
   {
-    src: '/assets/img/sidebar/iconRH.svg',
-    title: 'RH',
-    path: '/rh',
+    src: '/assets/img/sidebar/iconRotina.svg',
+    title: 'Reus',
+    path: '/rotina',
   },
-  {
-    src: '/assets/img/sidebar/iconEquipamento.svg',
-    title: 'Equipamento',
-    path: '/equipamentos',
-  },
-  {
-    src: '/assets/img/sidebar/iconAuditoria.svg',
-    title: 'Auditoria',
-    path: '/auditorias',
-  },
-  {
-    src: '/assets/img/sidebar/iconFornecedores.svg',
-    title: 'Fornecedores',
-    path: '/fornecedores',
-  },
+]
 
+const CardButtonSelection = [
   {
-    src: '/assets/img/sidebar/iconCadastro.svg',
-    title: 'Cadastro',
-    path: '/cadastro',
+    title: 'Colaboradores',
+    icon: '/assets/img/sidebar/iconRH.svg',
+    path: '/cadastro/colaboradores',
   },
-
   {
-    src: '/assets/img/sidebar/iconRelatorios.svg',
-    title: 'Relatórios',
-    path: '/relatorios',
-  },
-
-  {
-    src: '/assets/img/sidebar/iconIndicadores.svg',
-    title: 'Indicadores',
-    path: '/indicadores',
-  },
-
-  {
-    src: '/assets/img/sidebar/iconDocumentos.svg',
-    title: 'Documentos',
-    path: '/documentos',
-  },
-
-  {
-    src: '/assets/img/sidebar/iconContratos.svg',
-    title: 'Contratos',
-    path: '/contratos',
-  },
-
-  {
-    src: '/assets/img/sidebar/iconManutencao.svg',
-    title: 'Manutenção',
-    path: '/manutencao',
-  },
-
-  {
-    src: '/assets/img/sidebar/iconTecnicos.svg',
-    title: 'Técnicos',
-    path: '/tecnicos',
-  },
-
-  {
-    src: '/assets/img/sidebar/iconControles.svg',
-    title: 'Controles',
-    path: '/controles',
-  },
-
-  {
-    src: '/assets/img/sidebar/iconChamados.svg',
-    title: 'Chamados',
-    path: '/chamados',
-  },
-
-  {
-    src: '/assets/img/sidebar/iconOutros.svg',
-    title: 'Outros',
-    path: '/outros',
-  },
-
-  {
-    src: '/assets/img/sidebar/iconTI.svg',
-    title: 'TI',
-    path: '/ti',
-  },
-
-  {
-    src: '/assets/img/sidebar/iconMedicos.svg',
-    title: 'Médicos',
-    path: '/medicos',
+    title: 'Colaborador',
+    icon: '/assets/img/sidebar/iconRH.svg',
+    path: '/cadastro/colaboradores',
   },
 ]
 
 export function Sidebar() {
   return (
-    <Popover className="px-2 py-3 group bg-dark-700 w-16 h-screen hover:w-48 transition-all duration-500 ease-linear flex flex-col gap-4 overflow-y-scroll scrollbar-none">
-      <Button ButtonPriority={logoImg} variant alt="Logo SysQuali" />
-
+    <div className="flex flex-col w-16 h-screen gap-4 px-2 py-3 overflow-y-scroll transition-all duration-500 ease-linear group bg-dark-700 hover:w-48 scrollbar-none">
       {BUTTONS_INFO.map((button) => (
-        <Button
-          key={button.title}
-          ButtonPriority={button}
-          alt="SysQuali Logo"
-        />
+        <Menu as="div" key={button.title}>
+          <Button ButtonPriority={button} key={button.title} />
+
+          <Menu.Items className="relative z-10 flex flex-col justify-center w-full gap-2 px-3 py-2 mt-1 overflow-hidden text-gray-600 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            {CardButtonSelection.map((item) => (
+              <Menu.Item key={item.title}>
+                <NavLink path={item.path}>{item.title}</NavLink>
+              </Menu.Item>
+            ))}
+          </Menu.Items>
+        </Menu>
       ))}
-    </Popover>
+    </div>
   )
 }

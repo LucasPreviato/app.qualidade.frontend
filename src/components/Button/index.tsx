@@ -1,37 +1,38 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import classNames from 'classnames'
+import { Menu } from '@headlessui/react'
+import { NavLink } from '../NavLink'
+import { NextImage } from '../NextImage'
 
 interface ButtonProps {
   ButtonPriority: {
     title: string
     src: string
     path: string
+    alt?: string
   }
   variant?: boolean
-  alt?: string
 }
 
-export function Button({ ButtonPriority, variant, alt }: ButtonProps) {
+export function Button({ ButtonPriority, variant }: ButtonProps) {
   return (
-    <Link href={ButtonPriority.path} className="w-full">
-      <a
-        className={`${
-          variant ? 'bg-teal-500' : 'bg-zinc-600'
-        } w-12 h-12 rounded-full p-3 group-hover:w-full transition-all duration-500 ease-linear flex items-center justify-start`}
+    <NavLink path={ButtonPriority.path}>
+      <Menu.Button
+        key={ButtonPriority.title}
+        className={classNames(
+          'w-12 h-12 shadow rounded-md p-3 group-hover:w-full transition-all duration-500 ease-linear flex items-center justify-start',
+          {
+            'bg-teal-500': variant,
+            'bg-zinc-600': !variant,
+          }
+        )}
       >
-        <div className="relative w-6 h-6">
-          <Image
-            src={ButtonPriority.src}
-            alt={alt}
-            width={24}
-            height={24}
-            layout="fixed"
-          />
-        </div>
-        <span className="w-max-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 ease-linear">
-          <span className="pl-2">{ButtonPriority.title}</span>
+        <NextImage source={ButtonPriority.src} alt={ButtonPriority.title} />
+
+        <span className="overflow-hidden text-base transition-all duration-500 ease-linear max-w-0 group-hover:max-w-xs">
+          <span className="pl-2"></span>
+          {ButtonPriority.title}
         </span>
-      </a>
-    </Link>
+      </Menu.Button>
+    </NavLink>
   )
 }

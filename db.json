@@ -1,0 +1,52 @@
+{
+  "data": {
+    "content": [
+      {
+        "id": "1",
+        "title": "Título de teste 1",
+        "date": "14 de ago. 2022",
+        "commentCount": 9,
+        "shareCount": 5
+      },
+      {
+        "id": "2",
+        "title": "Título de teste 2",
+        "date": "1 de ago. 2022",
+        "commentCount": 16,
+        "shareCount": 13
+      },
+      {
+        "id": "3",
+        "title": "Título de teste 3",
+        "date": "07 de ago. 2022",
+        "commentCount": 1,
+        "shareCount": 6
+      },
+      {
+        "id": "4",
+        "title": "Título de teste 4",
+        "date": "15 de ago. 2022",
+        "commentCount": 5,
+        "shareCount": 5
+      }
+    ],
+    "heading": [
+      {
+        "id": "1",
+        "headTitle": "Item 1"
+      },
+      {
+        "id": "2",
+        "headTitle": "Item 2"
+      },
+      {
+        "id": "3",
+        "headTitle": "Item 3"
+      },
+      {
+        "id": "4",
+        "headTitle": "Item 4"
+      }
+    ]
+  }
+}
