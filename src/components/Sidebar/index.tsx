@@ -1,125 +1,276 @@
-import { Popover } from '@headlessui/react'
-
+import { Menu, Transition } from '@headlessui/react'
+import { Fragment } from 'react'
 import { Button } from '../Button'
+import { Logo } from '../Logo'
+import { NavLink } from '../NavLink'
 
-const logoImg = {
-  src: '/assets/SysQuali.ico',
-  title: 'SysQuali',
-  path: '/',
-}
-
-const BUTTONS_INFO = [
+const menu = [
   {
-    src: '/assets/img/sidebar/iconRotina.svg',
+    imgSource: '/assets/img/sidebar/iconRotina.svg',
     title: 'Rotina',
-    path: '/rotina',
+    menuItems: [
+      {
+        path: '/cadastro/colaboradores',
+        title: 'Colaboradores',
+      },
+      {
+        path: '/cadastro/colaboradores',
+        title: 'Colaboradores',
+      },
+      {
+        path: '/cadastro/colaboradores',
+        title: 'Colaboradores',
+      },
+    ],
   },
   {
-    src: '/assets/img/sidebar/iconRH.svg',
-    title: 'RH',
-    path: '/rh',
+    imgSource: '/assets/img/sidebar/iconRH.svg',
+    title: 'Rh',
+    menuItems: [
+      {
+        path: '/rh',
+        title: 'Item',
+      },
+    ],
   },
   {
-    src: '/assets/img/sidebar/iconEquipamento.svg',
+    imgSource: '/assets/img/sidebar/iconEquipamento.svg',
     title: 'Equipamento',
-    path: '/equipamentos',
+    menuItems: [
+      {
+        path: '/equipamento',
+        title: 'Item',
+      },
+    ],
   },
   {
-    src: '/assets/img/sidebar/iconAuditoria.svg',
+    imgSource: '/assets/img/sidebar/iconAuditoria.svg',
     title: 'Auditoria',
-    path: '/auditorias',
+    menuItems: [
+      {
+        path: '/auditoria',
+        title: 'Item',
+      },
+    ],
   },
   {
-    src: '/assets/img/sidebar/iconFornecedores.svg',
+    imgSource: '/assets/img/sidebar/iconFornecedores.svg',
     title: 'Fornecedores',
-    path: '/fornecedores',
+    menuItems: [
+      {
+        path: '/fornecedores',
+        title: 'Item',
+      },
+    ],
   },
-
   {
-    src: '/assets/img/sidebar/iconCadastro.svg',
+    imgSource: '/assets/img/sidebar/iconCadastro.svg',
     title: 'Cadastro',
-    path: '/cadastro',
+    menuItems: [
+      {
+        title: 'Colaboradores',
+        path: '/cadastro/colaboradores',
+      },
+      {
+        title: 'Empresas',
+        path: '/cadastro/empresas',
+      },
+      {
+        title: 'Classificação de tarefas',
+        path: '/cadastro/classificacao-de-tarefas',
+      },
+      {
+        title: 'Acesso ao sistema',
+        path: '/cadastro/acesso-ao-sistema',
+      },
+      {
+        title: 'Notificações de clientes',
+        path: '/cadastro/notificacoes-de-clientes',
+      },
+      {
+        title: 'Convênios',
+        path: '/cadastro/convenios',
+      },
+      {
+        title: 'Indicadores',
+        path: '/cadastro/indicadores',
+      },
+      {
+        title: 'Processos',
+        path: '/cadastro/processos',
+      },
+      {
+        title: 'Perfis de treinamento',
+        path: '/cadastro/perfis-de-treinamento',
+      },
+      {
+        title: 'Perfis de pesquisas satisfação',
+        path: '/cadastro/perfis-pesquisas',
+      },
+      {
+        title: 'Itens laboratoriais',
+        path: '/cadastro/itens-laboratoriais',
+      },
+      {
+        title: 'Agendamentos de Salas',
+        path: '/cadastro/agendamentos-salas',
+      },
+      {
+        title: 'Tipos de requisitos legais',
+        path: '/cadastro/requisitos-legais',
+      },
+      {
+        title: 'Tipos de certidões',
+        path: '/cadastro/tipo-certidoes',
+      },
+      {
+        title: 'Checklist de setores',
+        path: '/cadastro/checklist-setores',
+      },
+      {
+        title: 'Administrativo',
+        path: '/cadastro/administrativo',
+      },
+    ],
   },
-
   {
-    src: '/assets/img/sidebar/iconRelatorios.svg',
+    imgSource: '/assets/img/sidebar/iconRelatorios.svg',
     title: 'Relatórios',
-    path: '/relatorios',
+    menuItems: [
+      {
+        path: '/relatórios',
+        title: 'Item',
+      },
+    ],
   },
-
   {
-    src: '/assets/img/sidebar/iconIndicadores.svg',
+    imgSource: '/assets/img/sidebar/iconIndicadores.svg',
     title: 'Indicadores',
-    path: '/indicadores',
+    menuItems: [
+      {
+        path: '/indicadores',
+        title: 'Item',
+      },
+    ],
   },
-
   {
-    src: '/assets/img/sidebar/iconDocumentos.svg',
+    imgSource: '/assets/img/sidebar/iconDocumentos.svg',
     title: 'Documentos',
-    path: '/documentos',
+    menuItems: [
+      {
+        path: '/documentos',
+        title: 'Item',
+      },
+    ],
   },
-
   {
-    src: '/assets/img/sidebar/iconContratos.svg',
+    imgSource: '/assets/img/sidebar/iconContratos.svg',
     title: 'Contratos',
-    path: '/contratos',
+    menuItems: [
+      {
+        path: '/contratos',
+        title: 'Item',
+      },
+    ],
   },
-
   {
-    src: '/assets/img/sidebar/iconManutencao.svg',
+    imgSource: '/assets/img/sidebar/iconManutencao.svg',
     title: 'Manutenção',
-    path: '/manutencao',
+    menuItems: [
+      {
+        path: '/manutencao',
+        title: 'Item',
+      },
+    ],
   },
-
   {
-    src: '/assets/img/sidebar/iconTecnicos.svg',
+    imgSource: '/assets/img/sidebar/iconTecnicos.svg',
     title: 'Técnicos',
-    path: '/tecnicos',
+    menuItems: [
+      {
+        path: '/tecnicos',
+        title: 'Item',
+      },
+    ],
   },
-
   {
-    src: '/assets/img/sidebar/iconControles.svg',
+    imgSource: '/assets/img/sidebar/iconControles.svg',
     title: 'Controles',
-    path: '/controles',
+    menuItems: [
+      {
+        path: '/controles',
+        title: 'Item',
+      },
+    ],
   },
-
   {
-    src: '/assets/img/sidebar/iconChamados.svg',
+    imgSource: '/assets/img/sidebar/iconChamados.svg',
     title: 'Chamados',
-    path: '/chamados',
+    menuItems: [
+      {
+        path: '/chamados',
+        title: 'Item',
+      },
+    ],
   },
-
   {
-    src: '/assets/img/sidebar/iconOutros.svg',
+    imgSource: '/assets/img/sidebar/iconOutros.svg',
     title: 'Outros',
-    path: '/outros',
+    menuItems: [
+      {
+        path: '/outros',
+        title: 'Item',
+      },
+    ],
   },
-
   {
-    src: '/assets/img/sidebar/iconTI.svg',
-    title: 'TI',
-    path: '/ti',
+    imgSource: '/assets/img/sidebar/iconTI.svg',
+    title: 'Ti',
+    menuItems: [
+      {
+        path: '/ti',
+        title: 'Item',
+      },
+    ],
   },
-
   {
-    src: '/assets/img/sidebar/iconMedicos.svg',
+    imgSource: '/assets/img/sidebar/iconMedicos.svg',
     title: 'Médicos',
-    path: '/medicos',
+    menuItems: [
+      {
+        path: '/medicos',
+        title: 'Item',
+      },
+    ],
   },
 ]
 
 export function Sidebar() {
   return (
-    <Popover className="px-2 py-3 group bg-dark-700 w-16 h-screen hover:w-48 transition-all duration-500 ease-linear flex flex-col gap-4 overflow-y-scroll scrollbar-none">
-      <Button ButtonPriority={logoImg} variant alt="Logo SysQuali" />
-
-      {BUTTONS_INFO.map((button) => (
-        <Button
-          key={button.title}
-          ButtonPriority={button}
-          alt="SysQuali Logo"
-        />
+    <div className="flex flex-col h-screen gap-4 p-4 overflow-y-scroll max-w-max bg-base-2 scrollbar-none">
+      <Logo />
+      {menu.map((menu) => (
+        <Menu as="div" key={menu.title}>
+          <Button buttonData={menu} key={menu.title} />
+          <Transition
+            as={Fragment}
+            enter="transition-all ease-out duration-150"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95"
+          >
+            <Menu.Items className="flex flex-col items-start w-full gap-2 p-3 mt-1 overflow-hidden rounded-md shadow-md bg-base-9 text-base-12 focus:outline-none">
+              {menu.menuItems.map((menuItem) => (
+                <Menu.Item key={menuItem.title} as="div" className="py-1">
+                  <NavLink href={menuItem.path}>{menuItem.title}</NavLink>
+                </Menu.Item>
+              ))}
+            </Menu.Items>
+          </Transition>
+        </Menu>
       ))}
-    </Popover>
+    </div>
   )
 }

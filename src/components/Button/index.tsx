@@ -1,37 +1,31 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import { Menu } from '@headlessui/react'
+import { NextImage } from '../NextImage'
 
 interface ButtonProps {
-  ButtonPriority: {
+  buttonData: {
     title: string
-    src: string
-    path: string
+    imgSource: string
+    alt?: string
   }
   variant?: boolean
-  alt?: string
 }
 
-export function Button({ ButtonPriority, variant, alt }: ButtonProps) {
-  return (
-    <Link href={ButtonPriority.path} className="w-full">
-      <a
-        className={`${
-          variant ? 'bg-teal-500' : 'bg-zinc-600'
-        } w-12 h-12 rounded-full p-3 group-hover:w-full transition-all duration-500 ease-linear flex items-center justify-start`}
-      >
-        <div className="relative w-6 h-6">
-          <Image
-            src={ButtonPriority.src}
-            alt={alt}
-            width={24}
-            height={24}
-            layout="fixed"
-          />
-        </div>
-        <span className="w-max-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 ease-linear">
-          <span className="pl-2">{ButtonPriority.title}</span>
-        </span>
-      </a>
-    </Link>
+export function Button({ buttonData, variant }: ButtonProps) {
+  return variant ? (
+    <button
+      key={buttonData.title}
+      className="flex items-center w-full gap-3 p-4 transition-colors rounded-md shadow-md text-base-12 bg-brand-9 hover:bg-brand-10"
+    >
+      <NextImage source={buttonData.imgSource} alt={buttonData.title} />
+      <span>{buttonData.title}</span>
+    </button>
+  ) : (
+    <Menu.Button
+      key={buttonData.title}
+      className="flex items-center w-full gap-3 p-4 transition-colors rounded-md shadow-md text-base-12 bg-base-3 hover:bg-base-4"
+    >
+      <NextImage source={buttonData.imgSource} alt={buttonData.title} />
+      <span>{buttonData.title}</span>
+    </Menu.Button>
   )
 }
