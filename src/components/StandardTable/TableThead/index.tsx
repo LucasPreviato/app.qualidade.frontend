@@ -6,8 +6,10 @@ interface TableTheadProps {
 
 export function TableThead({ children }: TableTheadProps) {
   return (
-    <thead className="w-full block">
-      <tr className="w-full rounded-t bg-teal-500 flex py-2">{children}</tr>
+    <thead className="block w-full">
+      <tr className="flex w-full py-2 rounded-t bg-brand-9 text-base-12">
+        {children}
+      </tr>
     </thead>
   )
 }

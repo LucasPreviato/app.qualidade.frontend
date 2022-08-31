@@ -3,124 +3,77 @@ import { GiSpyglass as LogIcon } from 'react-icons/gi'
 import { RiDeleteBin5Line as DeleteIcon } from 'react-icons/ri'
 import { MdAdd as AddIcon } from 'react-icons/md'
 import { ModalButton } from '../../../../components/ModalButton'
-// import { StandardTable } from '../../../../components/StandardTable'
+import { StandardTable } from '../../../../components/StandardTable'
 import { MyListbox } from '../../../../components/FilterLabel'
 import { Modal } from '../../../../components/Modal'
 import { useState } from 'react'
 
-// const heading = [
-//   {
-//     title: 'ID',
-//   },
-//   {
-//     title: 'Nome',
-//   },
-//   {
-//     title: 'Responsável',
-//   },
-//   {
-//     title: 'Status',
-//   },
-// ]
+const heading = [
+  {
+    title: 'ID',
+  },
+  {
+    title: 'Nome',
+  },
+  {
+    title: 'Unidade',
+  },
+  {
+    title: 'Cargo',
+  },
+  {
+    title: 'Setor',
+  },
+  {
+    title: 'Vínculo',
+  },
+  {
+    title: 'Status',
+  },
+]
 
-// const tableBody = [
-//   {
-//     title: [
-//       {
-//         field: '00002',
-//       },
-//       {
-//         field: 'Matriz',
-//       },
-//       {
-//         field: 'João Braúna',
-//       },
-//       {
-//         field: 'Ativo',
-//       },
-//     ],
-//   },
-//   {
-//     title: [
-//       {
-//         field: '00002',
-//       },
-//       {
-//         field: 'Matriz',
-//       },
-//       {
-//         field: 'João Braúna',
-//       },
-//       {
-//         field: 'Ativo',
-//       },
-//     ],
-//   },
-//   {
-//     title: [
-//       {
-//         field: '00002',
-//       },
-//       {
-//         field: 'Matriz',
-//       },
-//       {
-//         field: 'João Braúna',
-//       },
-//       {
-//         field: 'Ativo',
-//       },
-//     ],
-//   },
-//   {
-//     title: [
-//       {
-//         field: '00002',
-//       },
-//       {
-//         field: 'Matriz',
-//       },
-//       {
-//         field: 'João Braúna',
-//       },
-//       {
-//         field: 'Ativo',
-//       },
-//     ],
-//   },
-//   {
-//     title: [
-//       {
-//         field: '00002',
-//       },
-//       {
-//         field: 'Matriz',
-//       },
-//       {
-//         field: 'João Braúna',
-//       },
-//       {
-//         field: 'Ativo',
-//       },
-//     ],
-//   },
-//   {
-//     title: [
-//       {
-//         field: '00002',
-//       },
-//       {
-//         field: 'Matriz',
-//       },
-//       {
-//         field: 'João Braúna',
-//       },
-//       {
-//         field: 'Ativo',
-//       },
-//     ],
-//   },
-// ]
+const tableBody = [
+  {
+    id: 1,
+    email: 'lucas@gmail.com',
+    nomeCompleto: 'Lucas Previato',
+    unidade: 'Matriz',
+    cargo: 'Analista de sistemas',
+    setor: 'Tecnologia da informação',
+    vinculo: 'CLT',
+    status: 'Experiência',
+  },
+  {
+    id: 2,
+    email: 'roberto@gmail.com',
+    nomeCompleto: 'Roberto Previato',
+    unidade: 'Matriz',
+    cargo: 'Recepcionista',
+    setor: 'Recepção',
+    vinculo: 'CLT',
+    status: 'Ativo',
+  },
+  {
+    id: 2,
+    email: 'roberto@gmail.com',
+    nomeCompleto: 'Roberto Previato',
+    unidade: 'Matriz',
+    cargo: 'Recepcionista',
+    setor: 'Recepção',
+    vinculo: 'CLT',
+    status: 'Ativo',
+  },
+  {
+    id: 2,
+    email: 'roberto@gmail.com',
+    nomeCompleto: 'Roberto Previato',
+    unidade: 'Matriz',
+    cargo: 'Recepcionista',
+    setor: 'Recepção',
+    vinculo: 'CLT',
+    status: 'Ativo',
+  },
+]
 
 export default function Colaborador() {
   const [isOpen, setIsOpen] = useState(false)
@@ -132,19 +85,21 @@ export default function Colaborador() {
   return (
     <>
       <div className="flex-1">
-        <div className="grid gap-6 p-6 rounded bg-dark-500">
-          {/* <div>
+        <div className="grid h-full gap-6 p-6 ">
+          <div className="rounded-md shadow-md h-max">
             <StandardTable
-              tbodyChildren={tableBody.map((tr) => (
+              tbodyChildren={tableBody.map((row) => (
                 <tr
-                  key={tr.title}
-                  className="flex transition-colors hover:bg-dark-400"
+                  key={row.id}
+                  className="flex items-center h-12 transition-colors text-base-12 hover:bg-base-5"
                 >
-                  {tr.title.map((td) => (
-                    <td key={tr.title} className="flex-1 py-3">
-                      {td.field}
-                    </td>
-                  ))}
+                  <td className="flex-1">{row.id}</td>
+                  <td className="flex-1">{row.nomeCompleto}</td>
+                  <td className="flex-1">{row.unidade}</td>
+                  <td className="flex-1">{row.cargo}</td>
+                  <td className="flex-1">{row.setor}</td>
+                  <td className="flex-1">{row.vinculo}</td>
+                  <td className="flex-1">{row.status}</td>
                 </tr>
               ))}
               theadChildren={heading.map((head) => (
@@ -153,7 +108,7 @@ export default function Colaborador() {
                 </th>
               ))}
             />
-          </div> */}
+          </div>
 
           <div>
             <MyListbox />
