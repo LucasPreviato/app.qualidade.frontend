@@ -7,28 +7,17 @@ import { StandardTable } from '../../../../components/StandardTable'
 import { MyListbox } from '../../../../components/FilterLabel'
 import { Modal } from '../../../../components/Modal'
 import { useState } from 'react'
-import { ColaboradorForm } from './ColaboradorForm'
-import { TableThead } from '../../../../components/StandardTable/TableThead'
+import { NextPage } from 'next'
+import { UnitForm } from './UnitForm'
 import { TableTbody } from '../../../../components/StandardTable/TableTbody'
+import { TableThead } from '../../../../components/StandardTable/TableThead'
 
 const heading = [
   {
     title: 'ID',
   },
   {
-    title: 'Nome',
-  },
-  {
-    title: 'Unidade',
-  },
-  {
-    title: 'Cargo',
-  },
-  {
-    title: 'Setor',
-  },
-  {
-    title: 'Vínculo',
+    title: 'Descrição',
   },
   {
     title: 'Status',
@@ -38,47 +27,27 @@ const heading = [
 const tableBody = [
   {
     id: 1,
-    email: 'lucas@gmail.com',
-    nomeCompleto: 'Lucas Previato',
-    unidade: 'Matriz',
-    cargo: 'Analista de sistemas',
-    setor: 'Tecnologia da informação',
-    vinculo: 'CLT',
-    status: 'Experiência',
+    descricao: 'Descrição 1',
+    status: 'Ativo',
   },
   {
     id: 2,
-    email: 'roberto@gmail.com',
-    nomeCompleto: 'Roberto Previato',
-    unidade: 'Matriz',
-    cargo: 'Recepcionista',
-    setor: 'Recepção',
-    vinculo: 'CLT',
+    descricao: 'Descrição 2',
     status: 'Ativo',
   },
   {
     id: 3,
-    email: 'roberto@gmail.com',
-    nomeCompleto: 'Roberto Previato',
-    unidade: 'Matriz',
-    cargo: 'Recepcionista',
-    setor: 'Recepção',
-    vinculo: 'CLT',
-    status: 'Ativo',
+    descricao: 'Descrição 3',
+    status: 'Inativo',
   },
   {
     id: 4,
-    email: 'roberto@gmail.com',
-    nomeCompleto: 'Roberto Previato',
-    unidade: 'Matriz',
-    cargo: 'Recepcionista',
-    setor: 'Recepção',
-    vinculo: 'CLT',
+    descricao: 'Descrição 4',
     status: 'Ativo',
   },
 ]
 
-export default function Colaborador() {
+const Unidades: NextPage = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   function changeModalState() {
@@ -105,11 +74,7 @@ export default function Colaborador() {
                     className="flex items-center h-12 transition-colors text-base-12 hover:bg-base-5"
                   >
                     <td className="flex-1">{row.id}</td>
-                    <td className="flex-1">{row.nomeCompleto}</td>
-                    <td className="flex-1">{row.unidade}</td>
-                    <td className="flex-1">{row.cargo}</td>
-                    <td className="flex-1">{row.setor}</td>
-                    <td className="flex-1">{row.vinculo}</td>
+                    <td className="flex-1">{row.descricao}</td>
                     <td className="flex-1">{row.status}</td>
                   </tr>
                 ))}
@@ -160,8 +125,10 @@ export default function Colaborador() {
       </div>
 
       <Modal onChangeModalState={changeModalState} isOpen={isOpen}>
-        <ColaboradorForm />
+        <UnitForm />
       </Modal>
     </>
   )
 }
+
+export default Unidades
