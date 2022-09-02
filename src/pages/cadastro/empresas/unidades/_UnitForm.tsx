@@ -10,7 +10,7 @@ const UnitFormSchema = z.object({
 
 type UnitFormProps = z.infer<typeof UnitFormSchema>
 
-export function UnitForm() {
+export default function UnitForm() {
   const { register, handleSubmit, control } = useForm<UnitFormProps>({
     resolver: zodResolver(UnitFormSchema),
   })

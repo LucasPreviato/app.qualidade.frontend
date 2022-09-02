@@ -18,7 +18,7 @@ const ColaboradorFormSchema = z.object({
 
 type ColaboradorFormProps = z.infer<typeof ColaboradorFormSchema>
 
-export function ColaboradorForm() {
+export default function ColaboradorForm() {
   const { register, handleSubmit, control } = useForm<ColaboradorFormProps>({
     resolver: zodResolver(ColaboradorFormSchema),
   })
