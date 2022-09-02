@@ -8,9 +8,9 @@ import { MyListbox } from '../../../../components/FilterLabel'
 import { Modal } from '../../../../components/Modal'
 import { useState } from 'react'
 import { NextPage } from 'next'
-import { UnitForm } from './UnitForm'
 import { TableTbody } from '../../../../components/StandardTable/TableTbody'
 import { TableThead } from '../../../../components/StandardTable/TableThead'
+import UnitForm from './UnitForm'
 
 const heading = [
   {

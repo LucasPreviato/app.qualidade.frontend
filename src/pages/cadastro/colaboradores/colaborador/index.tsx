@@ -7,9 +7,9 @@ import { StandardTable } from '../../../../components/StandardTable'
 import { MyListbox } from '../../../../components/FilterLabel'
 import { Modal } from '../../../../components/Modal'
 import { useState } from 'react'
-import { ColaboradorForm } from './ColaboradorForm'
 import { TableThead } from '../../../../components/StandardTable/TableThead'
 import { TableTbody } from '../../../../components/StandardTable/TableTbody'
+import ColaboradorForm from './ColaboradorForm'
 
 const heading = [
   {
