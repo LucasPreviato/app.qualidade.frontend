@@ -1,58 +1,52 @@
-import { IoExitOutline as CloseIcon } from 'react-icons/io5'
 import { GiSpyglass as LogIcon } from 'react-icons/gi'
 import { RiDeleteBin5Line as DeleteIcon } from 'react-icons/ri'
 import { MdAdd as AddIcon } from 'react-icons/md'
 import { ModalButton } from '../../../../components/ModalButton'
 import { StandardTable } from '../../../../components/StandardTable'
-import { MyListbox } from '../../../../components/FilterLabel'
+import { FilterLabel } from '../../../../components/FilterLabel'
 import { Modal } from '../../../../components/Modal'
-import { useState } from 'react'
-import { NextPage } from 'next'
+import { GetServerSideProps, NextPage } from 'next'
 import { TableTbody } from '../../../../components/StandardTable/TableTbody'
 import { TableThead } from '../../../../components/StandardTable/TableThead'
 import UnitForm from './UnitForm'
+import { api } from '../../../../services/api'
+import { useModal } from '../../../../contexts/ModalContext'
 
 const heading = [
   {
     title: 'ID',
   },
   {
-    title: 'Descrição',
+    title: 'Nome',
+  },
+  {
+    title: 'Responsável',
   },
   {
     title: 'Status',
   },
 ]
 
-const tableBody = [
-  {
-    id: 1,
-    descricao: 'Descrição 1',
-    status: 'Ativo',
-  },
-  {
-    id: 2,
-    descricao: 'Descrição 2',
-    status: 'Ativo',
-  },
-  {
-    id: 3,
-    descricao: 'Descrição 3',
-    status: 'Inativo',
-  },
-  {
-    id: 4,
-    descricao: 'Descrição 4',
-    status: 'Ativo',
-  },
-]
+export type Unit = {
+  id: number
+  name: string
+  address: string
+  district: string
+  city: string
+  cep: string
+  uf: string
+  number: string
+  complement: string
+  fone: string
+  email: string
+}
 
-const Unidades: NextPage = () => {
-  const [isOpen, setIsOpen] = useState(false)
+export interface UnitProps {
+  data: Unit[]
+}
 
-  function changeModalState() {
-    setIsOpen(!isOpen)
-  }
+const Unidades: NextPage<UnitProps> = ({ data }) => {
+  const { onOpen } = useModal()
 
   return (
     <>
@@ -68,14 +62,24 @@ const Unidades: NextPage = () => {
                 ))}
               </TableThead>
               <TableTbody>
-                {tableBody.map((row) => (
+                {data.map((row) => (
                   <tr
                     key={row.id}
                     className="flex items-center h-12 transition-colors text-base-12 hover:bg-base-5"
                   >
                     <td className="flex-1">{row.id}</td>
-                    <td className="flex-1">{row.descricao}</td>
-                    <td className="flex-1">{row.status}</td>
+                    <td className="flex-1">{row.name}</td>
+                    {row.address ? (
+                      <td className="flex-1">{row.address}</td>
+                    ) : (
+                      <td className="flex-1">N/A</td>
+                    )}
+
+                    {row.email ? (
+                      <td className="flex-1">{row.email}</td>
+                    ) : (
+                      <td className="flex-1">N/A</td>
+                    )}
                   </tr>
                 ))}
               </TableTbody>
@@ -83,10 +87,10 @@ const Unidades: NextPage = () => {
           </div>
 
           <div>
-            <MyListbox />
-            <MyListbox />
-            <MyListbox />
-            <MyListbox />
+            <FilterLabel data={data} />
+            <FilterLabel data={data} />
+            <FilterLabel data={data} />
+            <FilterLabel data={data} />
           </div>
 
           <div className="flex justify-between px-2">
@@ -108,23 +112,17 @@ const Unidades: NextPage = () => {
               <button
                 type="button"
                 className={`h-16 w-16 bg-teal-600  rounded flex flex-col items-center justify-center hover:brightness-[0.9] transition-colors`}
-                onClick={changeModalState}
+                onClick={onOpen}
               >
                 <AddIcon size={24} />
                 <span className="text-sm">Incluir</span>
               </button>
-
-              <ModalButton
-                color="bg-red-600"
-                icon={<CloseIcon size={24} />}
-                title="Sair"
-              />
             </div>
           </div>
         </div>
       </div>
 
-      <Modal onChangeModalState={changeModalState} isOpen={isOpen}>
+      <Modal>
         <UnitForm />
       </Modal>
     </>
@@ -132,3 +130,14 @@ const Unidades: NextPage = () => {
 }
 
 export default Unidades
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const response = await api.get('/company')
+  const data = response.data
+
+  return {
+    props: {
+      data,
+    },
+  }
+}

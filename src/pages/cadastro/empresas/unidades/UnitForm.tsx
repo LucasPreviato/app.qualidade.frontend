@@ -1,66 +1,135 @@
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Listbox } from '@headlessui/react'
+import { api } from '../../../../services/api'
+import { removeEmptyFields } from '../../../../utils/removeEmptyFields'
+import classNames from 'classnames'
+import { useModal } from '../../../../contexts/ModalContext'
 
 const UnitFormSchema = z.object({
-  description: z.string(),
-  status: z.enum(['Active', 'Inactive']),
+  name: z.string().min(1, 'Nome é obrigatório!'),
+  address: z.string().nullish(),
+  district: z.string().nullish(),
+  city: z.string().nullish(),
+  cep: z.string().nullish(),
+  uf: z.string().nullish(),
+  number: z.string().nullish(),
+  complement: z.string().nullish(),
+  fone: z.string().nullish(),
+  email: z.string().nullish(),
 })
 
 type UnitFormProps = z.infer<typeof UnitFormSchema>
 
 export default function UnitForm() {
-  const { register, handleSubmit, control } = useForm<UnitFormProps>({
+  const { onClose } = useModal()
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<UnitFormProps>({
     resolver: zodResolver(UnitFormSchema),
   })
 
-  function handleCollaboratorForm(data: UnitFormProps) {
-    const formData = {
-      id: 1,
-      ...data,
-    }
+  async function handleCollaboratorForm(data: UnitFormProps) {
+    removeEmptyFields(data)
 
-    console.log(formData)
+    await api.post('/company', {
+      ...data,
+    })
+
+    onClose()
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(handleCollaboratorForm)}
-      className="h-[300px] w-[500px] p-4 flex flex-col justify-between"
-    >
+    <div className="flex flex-col gap-8 p-4">
       <h1>Cadastro de Unidades</h1>
-      <div className="flex flex-col gap-5">
+      <form
+        onSubmit={handleSubmit(handleCollaboratorForm)}
+        className="grid grid-cols-2 gap-x-4 gap-y-4"
+      >
         <input
           type="text"
-          placeholder="Descrição"
+          placeholder="Nome"
           required
-          {...register('description')}
-          className="flex-1 p-2"
+          {...register('name')}
+          className={classNames('col-span-2 px-2 py-1 rounded', {
+            'outline-red-500': errors,
+          })}
         />
 
-        <Controller
-          control={control}
-          name="status"
-          render={({ field }) => (
-            <Listbox
-              value={field.value}
-              onChange={field.onChange}
-              as="div"
-              className="flex-1 p-2"
-            >
-              <Listbox.Button>Unidade</Listbox.Button>
-              <Listbox.Options className="relative w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                <Listbox.Option value="Active">Ativo</Listbox.Option>
-                <Listbox.Option value="Inactive">Inativo</Listbox.Option>
-              </Listbox.Options>
-            </Listbox>
-          )}
+        <input
+          type="text"
+          placeholder="Endereço"
+          {...register('address')}
+          className="col-span-2 px-2 py-1 rounded"
         />
-      </div>
-      <button type="submit" className="self-end">
-        Salvar
-      </button>
-    </form>
+
+        <input
+          type="email"
+          placeholder="E-mail"
+          {...register('email')}
+          className="col-span-2 px-2 py-1 rounded"
+        />
+
+        <input
+          type="text"
+          placeholder="Bairro"
+          {...register('district')}
+          className="px-2 py-1 rounded"
+        />
+
+        <input
+          type="text"
+          placeholder="Cidade"
+          {...register('city')}
+          className="px-2 py-1 rounded"
+        />
+
+        <input
+          type="text"
+          placeholder="CEP"
+          {...register('cep')}
+          className="px-2 py-1 rounded"
+        />
+
+        <input
+          type="text"
+          placeholder="UF"
+          {...register('uf')}
+          className="px-2 py-1 rounded"
+        />
+
+        <input
+          type="text"
+          placeholder="Número"
+          {...register('number')}
+          className="px-2 py-1 rounded"
+        />
+
+        <input
+          type="text"
+          placeholder="Complemento"
+          {...register('complement')}
+          className="px-2 py-1 rounded"
+        />
+
+        <input
+          type="text"
+          placeholder="Telefone"
+          {...register('fone')}
+          className="px-2 py-1 rounded"
+        />
+
+        <button
+          type="submit"
+          className="col-span-2 px-5 font-bold transition-colors rounded-md text-base-12 hover:bg-brand-10 h-9 bg-brand-9 justify-self-end disabled:opacity-5 disabled:cursor-not-allowed"
+          disabled={isSubmitting}
+        >
+          Salvar
+        </button>
+      </form>
+    </div>
   )
 }

@@ -4,12 +4,11 @@ import { RiDeleteBin5Line as DeleteIcon } from 'react-icons/ri'
 import { MdAdd as AddIcon } from 'react-icons/md'
 import { ModalButton } from '../../../../components/ModalButton'
 import { StandardTable } from '../../../../components/StandardTable'
-import { MyListbox } from '../../../../components/FilterLabel'
 import { Modal } from '../../../../components/Modal'
-import { useState } from 'react'
 import { TableThead } from '../../../../components/StandardTable/TableThead'
 import { TableTbody } from '../../../../components/StandardTable/TableTbody'
 import ColaboradorForm from './ColaboradorForm'
+import { useModal } from '../../../../contexts/ModalContext'
 
 const heading = [
   {
@@ -79,11 +78,7 @@ const tableBody = [
 ]
 
 export default function Colaborador() {
-  const [isOpen, setIsOpen] = useState(false)
-
-  function changeModalState() {
-    setIsOpen(!isOpen)
-  }
+  const { onOpen } = useModal()
 
   return (
     <>
@@ -117,13 +112,6 @@ export default function Colaborador() {
             </StandardTable>
           </div>
 
-          <div>
-            <MyListbox />
-            <MyListbox />
-            <MyListbox />
-            <MyListbox />
-          </div>
-
           <div className="flex justify-between px-2">
             <div className="flex gap-4">
               <ModalButton
@@ -143,7 +131,7 @@ export default function Colaborador() {
               <button
                 type="button"
                 className={`h-16 w-16 bg-teal-600  rounded flex flex-col items-center justify-center hover:brightness-[0.9] transition-colors`}
-                onClick={changeModalState}
+                onClick={onOpen}
               >
                 <AddIcon size={24} />
                 <span className="text-sm">Incluir</span>
@@ -159,7 +147,7 @@ export default function Colaborador() {
         </div>
       </div>
 
-      <Modal onChangeModalState={changeModalState} isOpen={isOpen}>
+      <Modal>
         <ColaboradorForm />
       </Modal>
     </>
