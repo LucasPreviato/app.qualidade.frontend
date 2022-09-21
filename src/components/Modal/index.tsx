@@ -1,20 +1,17 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { ReactNode } from 'react'
+import { useModal } from '../../contexts/ModalContext'
 
 interface ModalProps {
-  onChangeModalState: () => void
-  isOpen: boolean
   children: ReactNode
 }
 
-export function Modal({ onChangeModalState, isOpen, children }: ModalProps) {
-  function changeModalState() {
-    onChangeModalState()
-  }
+export function Modal({ children }: ModalProps) {
+  const { isOpen, onClose } = useModal()
 
   return (
     <Transition appear show={isOpen}>
-      <Dialog as="div" className="relative z-10" onClose={changeModalState}>
+      <Dialog as="div" className="relative z-10" onClose={onClose}>
         <Transition.Child
           enter="ease-out duration-300"
           enterFrom="opacity-0"

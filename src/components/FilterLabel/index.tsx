@@ -1,18 +1,14 @@
 import { Fragment, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { GiSpyglass as LogIcon } from 'react-icons/gi'
+import { Unit } from '../../pages/cadastro/empresas/unidades'
 
-const people = [
-  { name: 'Wade Cooper' },
-  { name: 'Arlene Mccoy' },
-  { name: 'Devon Webb' },
-  { name: 'Tom Cook' },
-  { name: 'Tanya Fox' },
-  { name: 'Hellen Schmidt' },
-]
+interface FilterLabelProps {
+  data: Pick<Unit, 'name'>[]
+}
 
-export function MyListbox() {
-  const [selected, setSelected] = useState(people[0])
+export function FilterLabel({ data }: FilterLabelProps) {
+  const [selected, setSelected] = useState(data[0])
 
   return (
     <div className="top-16 w-52">
@@ -31,7 +27,7 @@ export function MyListbox() {
             leaveTo="opacity-0"
           >
             <Listbox.Options className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-24 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {people.map((person, personIdx) => (
+              {data.map((person, personIdx) => (
                 <Listbox.Option
                   key={personIdx}
                   className={({ active }) =>
