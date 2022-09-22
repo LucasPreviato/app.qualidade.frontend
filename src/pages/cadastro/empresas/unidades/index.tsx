@@ -3,14 +3,16 @@ import { RiDeleteBin5Line as DeleteIcon } from 'react-icons/ri'
 import { MdAdd as AddIcon } from 'react-icons/md'
 import { ModalButton } from '../../../../components/ModalButton'
 import { StandardTable } from '../../../../components/StandardTable'
-import { FilterLabel } from '../../../../components/FilterLabel'
 import { Modal } from '../../../../components/Modal'
-import { GetServerSideProps, NextPage } from 'next'
+import { NextPage } from 'next'
 import { TableTbody } from '../../../../components/StandardTable/TableTbody'
 import { TableThead } from '../../../../components/StandardTable/TableThead'
 import UnitForm from './UnitForm'
-import { api } from '../../../../services/api'
 import { useModal } from '../../../../contexts/ModalContext'
+import {
+  useUnitsQuery,
+  useGetDepartmentsQuery,
+} from '../../../../graphql/generated'
 
 const heading = [
   {
@@ -20,33 +22,22 @@ const heading = [
     title: 'Nome',
   },
   {
-    title: 'Responsável',
+    title: 'Sigla',
   },
   {
-    title: 'Status',
+    title: 'E-mail',
+  },
+  {
+    title: 'Phone',
   },
 ]
 
-export type Unit = {
-  id: number
-  name: string
-  address: string
-  district: string
-  city: string
-  cep: string
-  uf: string
-  number: string
-  complement: string
-  fone: string
-  email: string
-}
-
-export interface UnitProps {
-  data: Unit[]
-}
-
-const Unidades: NextPage<UnitProps> = ({ data }) => {
+const Unidades: NextPage = () => {
   const { onOpen } = useModal()
+  const { data: { unitsData } } = useUnitsQuery()
+  const { data: departmentsData } = useGetDepartmentsQuery()
+
+  console.log(departmentsData)
 
   return (
     <>
@@ -62,21 +53,22 @@ const Unidades: NextPage<UnitProps> = ({ data }) => {
                 ))}
               </TableThead>
               <TableTbody>
-                {data.map((row) => (
+                {departmentsData?.departments.map((row) => (
                   <tr
                     key={row.id}
                     className="flex items-center h-12 transition-colors text-base-12 hover:bg-base-5"
                   >
                     <td className="flex-1">{row.id}</td>
                     <td className="flex-1">{row.name}</td>
-                    {row.address ? (
-                      <td className="flex-1">{row.address}</td>
+                    <td className="flex-1">{row.initials}</td>
+                    {row.email ? (
+                      <td className="flex-1">{row.email}</td>
                     ) : (
                       <td className="flex-1">N/A</td>
                     )}
 
-                    {row.email ? (
-                      <td className="flex-1">{row.email}</td>
+                    {row.phone ? (
+                      <td className="flex-1">{row.unit.name}</td>
                     ) : (
                       <td className="flex-1">N/A</td>
                     )}
@@ -84,13 +76,6 @@ const Unidades: NextPage<UnitProps> = ({ data }) => {
                 ))}
               </TableTbody>
             </StandardTable>
-          </div>
-
-          <div>
-            <FilterLabel data={data} />
-            <FilterLabel data={data} />
-            <FilterLabel data={data} />
-            <FilterLabel data={data} />
           </div>
 
           <div className="flex justify-between px-2">
@@ -130,14 +115,3 @@ const Unidades: NextPage<UnitProps> = ({ data }) => {
 }
 
 export default Unidades
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const response = await api.get('/company')
-  const data = response.data
-
-  return {
-    props: {
-      data,
-    },
-  }
-}

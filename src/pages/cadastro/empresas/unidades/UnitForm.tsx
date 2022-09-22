@@ -1,28 +1,29 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { api } from '../../../../services/api'
 import { removeEmptyFields } from '../../../../utils/removeEmptyFields'
 import classNames from 'classnames'
 import { useModal } from '../../../../contexts/ModalContext'
+import { useCreateUnitMutation } from '../../../../graphql/generated'
 
 const UnitFormSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório!'),
-  address: z.string().nullish(),
-  district: z.string().nullish(),
-  city: z.string().nullish(),
-  cep: z.string().nullish(),
-  uf: z.string().nullish(),
-  number: z.string().nullish(),
-  complement: z.string().nullish(),
-  fone: z.string().nullish(),
-  email: z.string().nullish(),
+  //address: z.string().nullish(),
+  //district: z.string().nullish(),
+  //city: z.string().nullish(),
+  //cep: z.string().nullish(),
+  //uf: z.string().nullish(),
+  //number: z.string().nullish(),
+  //complement: z.string().nullish(),
+  phone: z.string(),
+  email: z.string(),
 })
 
 type UnitFormProps = z.infer<typeof UnitFormSchema>
 
 export default function UnitForm() {
   const { onClose } = useModal()
+  const [createUnit] = useCreateUnitMutation()
 
   const {
     register,
@@ -32,11 +33,17 @@ export default function UnitForm() {
     resolver: zodResolver(UnitFormSchema),
   })
 
-  async function handleCollaboratorForm(data: UnitFormProps) {
-    removeEmptyFields(data)
+  async function handleCollaboratorForm({ name, email, phone }: UnitFormProps) {
+    removeEmptyFields({ name, email, phone })
 
-    await api.post('/company', {
-      ...data,
+    await createUnit({
+      variables: {
+        createUnitInput: {
+          email,
+          name,
+          phone,
+        },
+      },
     })
 
     onClose()
@@ -60,13 +67,6 @@ export default function UnitForm() {
         />
 
         <input
-          type="text"
-          placeholder="Endereço"
-          {...register('address')}
-          className="col-span-2 px-2 py-1 rounded"
-        />
-
-        <input
           type="email"
           placeholder="E-mail"
           {...register('email')}
@@ -74,52 +74,10 @@ export default function UnitForm() {
         />
 
         <input
-          type="text"
-          placeholder="Bairro"
-          {...register('district')}
-          className="px-2 py-1 rounded"
-        />
-
-        <input
-          type="text"
-          placeholder="Cidade"
-          {...register('city')}
-          className="px-2 py-1 rounded"
-        />
-
-        <input
-          type="text"
-          placeholder="CEP"
-          {...register('cep')}
-          className="px-2 py-1 rounded"
-        />
-
-        <input
-          type="text"
-          placeholder="UF"
-          {...register('uf')}
-          className="px-2 py-1 rounded"
-        />
-
-        <input
-          type="text"
+          type="number"
           placeholder="Número"
-          {...register('number')}
-          className="px-2 py-1 rounded"
-        />
-
-        <input
-          type="text"
-          placeholder="Complemento"
-          {...register('complement')}
-          className="px-2 py-1 rounded"
-        />
-
-        <input
-          type="text"
-          placeholder="Telefone"
-          {...register('fone')}
-          className="px-2 py-1 rounded"
+          {...register('phone')}
+          className="col-span-2 px-2 py-1 rounded"
         />
 
         <button

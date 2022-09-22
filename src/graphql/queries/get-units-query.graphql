@@ -1,0 +1,8 @@
+query GetUnits {
+  units {
+    email
+    id
+    name
+    phone
+  }
+}

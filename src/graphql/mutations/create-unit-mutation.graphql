@@ -1,0 +1,8 @@
+mutation CreateUnit($createUnitInput: CreateUnitInput!) {
+  createUnit(createUnitInput: $createUnitInput) {
+    email
+    name
+    id
+    phone
+  }
+}
