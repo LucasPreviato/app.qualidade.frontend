@@ -7,9 +7,9 @@ import { Modal } from '../../../../components/Modal'
 import { NextPage } from 'next'
 import { TableTbody } from '../../../../components/StandardTable/TableTbody'
 import { TableThead } from '../../../../components/StandardTable/TableThead'
-import UnitForm from './UnitForm'
 import { useModal } from '../../../../contexts/ModalContext'
-import { useGetUnitsQuery } from '../../../../graphql/generated'
+import { useGetDepartmentsQuery } from '../../../../graphql/generated'
+import SectorForm from './SectorForm'
 
 const heading = [
   {
@@ -19,22 +19,25 @@ const heading = [
     title: 'Nome',
   },
   {
-    title: 'E-mail',
+    title: 'Sigla',
   },
   {
-    title: 'Responsável',
+    title: 'E-mail',
   },
   {
     title: 'Telefone',
   },
   {
-    title: 'Status',
+    title: 'Unidade',
   },
 ]
 
-const Unidades: NextPage = () => {
+const Setores: NextPage = () => {
   const { onOpen } = useModal()
-  const { data: unitsData } = useGetUnitsQuery()
+  // const { data: { unitsData } } = useUnitsQuery()
+  const { data: departmentsData } = useGetDepartmentsQuery()
+
+  console.log(departmentsData)
 
   return (
     <>
@@ -50,21 +53,31 @@ const Unidades: NextPage = () => {
                 ))}
               </TableThead>
               <TableTbody>
-                {unitsData?.units.map((row) => (
+                {departmentsData?.departments.map((row) => (
                   <tr
                     key={row.id}
                     className="flex items-center h-12 transition-colors text-base-12 hover:bg-base-5"
                   >
                     <td className="flex-1">{row.id}</td>
                     <td className="flex-1">{row.name}</td>
+                    <td className="flex-1">{row.initials}</td>
                     {row.email ? (
                       <td className="flex-1">{row.email}</td>
                     ) : (
                       <td className="flex-1">N/A</td>
                     )}
-                    <td className="flex-1">N/A</td>
-                    <td className="flex-1">{row.phone}</td>
-                    <td className="flex-1">N/A</td>
+
+                    {row.phone ? (
+                      <td className="flex-1">{row.phone}</td>
+                    ) : (
+                      <td className="flex-1">N/A</td>
+                    )}
+
+                    {row.unit.name ? (
+                      <td className="flex-1">{row.unit.name}</td>
+                    ) : (
+                      <td className="flex-1">N/A</td>
+                    )}
                   </tr>
                 ))}
               </TableTbody>
@@ -101,10 +114,10 @@ const Unidades: NextPage = () => {
       </div>
 
       <Modal>
-        <UnitForm />
+        <SectorForm />
       </Modal>
     </>
   )
 }
 
-export default Unidades
+export default Setores

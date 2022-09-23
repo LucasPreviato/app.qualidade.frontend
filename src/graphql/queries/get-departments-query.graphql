@@ -5,12 +5,12 @@ query GetDepartments {
     initials
     name
     phone
-    unitId
     unit {
       email
       id
       name
       phone
     }
+    unitId
   }
 }

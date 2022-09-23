@@ -16,10 +16,10 @@ export type Scalars = {
 };
 
 export type CreateDepartmentInput = {
-  email: Scalars['String'];
+  email?: InputMaybe<Scalars['String']>;
   initials: Scalars['String'];
   name: Scalars['String'];
-  phone: Scalars['String'];
+  phone?: InputMaybe<Scalars['String']>;
   unitId: Scalars['Int'];
 };
 
@@ -31,21 +31,21 @@ export type CreateUnitInput = {
 
 export type Department = {
   __typename?: 'Department';
-  email: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   initials: Scalars['String'];
   name: Scalars['String'];
-  phone: Scalars['String'];
+  phone?: Maybe<Scalars['String']>;
   unit: Unit;
   unitId: Scalars['Int'];
 };
 
 export type DepartmentInput = {
-  email: Scalars['String'];
+  email?: InputMaybe<Scalars['String']>;
   id: Scalars['Int'];
   initials: Scalars['String'];
   name: Scalars['String'];
-  phone: Scalars['String'];
+  phone?: InputMaybe<Scalars['String']>;
   unit: UnitInput;
   unitId: Scalars['Int'];
 };
@@ -124,6 +124,13 @@ export type UpdateUnitInput = {
   phone?: InputMaybe<Scalars['String']>;
 };
 
+export type CreateDepartmentMutationVariables = Exact<{
+  createDepartmentInput: CreateDepartmentInput;
+}>;
+
+
+export type CreateDepartmentMutation = { __typename?: 'Mutation', createDepartment: { __typename?: 'Department', email?: string | null, id: number, initials: string, name: string, phone?: string | null, unitId: number } };
+
 export type CreateUnitMutationVariables = Exact<{
   createUnitInput: CreateUnitInput;
 }>;
@@ -134,14 +141,52 @@ export type CreateUnitMutation = { __typename?: 'Mutation', createUnit: { __type
 export type GetDepartmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetDepartmentsQuery = { __typename?: 'Query', departments: Array<{ __typename?: 'Department', email: string, id: number, initials: string, name: string, phone: string, unitId: number, unit: { __typename?: 'Unit', email: string, id: number, name: string, phone: string } }> };
+export type GetDepartmentsQuery = { __typename?: 'Query', departments: Array<{ __typename?: 'Department', email?: string | null, id: number, initials: string, name: string, phone?: string | null, unitId: number, unit: { __typename?: 'Unit', email: string, id: number, name: string, phone: string } }> };
 
-export type UnitsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type UnitsQuery = { __typename?: 'Query', units: Array<{ __typename?: 'Unit', email: string, id: number, name: string, phone: string }> };
+export type GetUnitsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
+export type GetUnitsQuery = { __typename?: 'Query', units: Array<{ __typename?: 'Unit', email: string, id: number, name: string, phone: string }> };
+
+
+export const CreateDepartmentDocument = gql`
+    mutation CreateDepartment($createDepartmentInput: CreateDepartmentInput!) {
+  createDepartment(createDepartmentInput: $createDepartmentInput) {
+    email
+    id
+    initials
+    name
+    phone
+    unitId
+  }
+}
+    `;
+export type CreateDepartmentMutationFn = Apollo.MutationFunction<CreateDepartmentMutation, CreateDepartmentMutationVariables>;
+
+/**
+ * __useCreateDepartmentMutation__
+ *
+ * To run a mutation, you first call `useCreateDepartmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateDepartmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createDepartmentMutation, { data, loading, error }] = useCreateDepartmentMutation({
+ *   variables: {
+ *      createDepartmentInput: // value for 'createDepartmentInput'
+ *   },
+ * });
+ */
+export function useCreateDepartmentMutation(baseOptions?: Apollo.MutationHookOptions<CreateDepartmentMutation, CreateDepartmentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateDepartmentMutation, CreateDepartmentMutationVariables>(CreateDepartmentDocument, options);
+      }
+export type CreateDepartmentMutationHookResult = ReturnType<typeof useCreateDepartmentMutation>;
+export type CreateDepartmentMutationResult = Apollo.MutationResult<CreateDepartmentMutation>;
+export type CreateDepartmentMutationOptions = Apollo.BaseMutationOptions<CreateDepartmentMutation, CreateDepartmentMutationVariables>;
 export const CreateUnitDocument = gql`
     mutation CreateUnit($createUnitInput: CreateUnitInput!) {
   createUnit(createUnitInput: $createUnitInput) {
@@ -179,20 +224,20 @@ export type CreateUnitMutationHookResult = ReturnType<typeof useCreateUnitMutati
 export type CreateUnitMutationResult = Apollo.MutationResult<CreateUnitMutation>;
 export type CreateUnitMutationOptions = Apollo.BaseMutationOptions<CreateUnitMutation, CreateUnitMutationVariables>;
 export const GetDepartmentsDocument = gql`
-    query getDepartments {
+    query GetDepartments {
   departments {
     email
     id
     initials
     name
     phone
-    unitId
     unit {
       email
       id
       name
       phone
     }
+    unitId
   }
 }
     `;
@@ -223,8 +268,8 @@ export function useGetDepartmentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetDepartmentsQueryHookResult = ReturnType<typeof useGetDepartmentsQuery>;
 export type GetDepartmentsLazyQueryHookResult = ReturnType<typeof useGetDepartmentsLazyQuery>;
 export type GetDepartmentsQueryResult = Apollo.QueryResult<GetDepartmentsQuery, GetDepartmentsQueryVariables>;
-export const UnitsDocument = gql`
-    query Units {
+export const GetUnitsDocument = gql`
+    query GetUnits {
   units {
     email
     id
@@ -235,28 +280,28 @@ export const UnitsDocument = gql`
     `;
 
 /**
- * __useUnitsQuery__
+ * __useGetUnitsQuery__
  *
- * To run a query within a React component, call `useUnitsQuery` and pass it any options that fit your needs.
- * When your component renders, `useUnitsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetUnitsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUnitsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUnitsQuery({
+ * const { data, loading, error } = useGetUnitsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useUnitsQuery(baseOptions?: Apollo.QueryHookOptions<UnitsQuery, UnitsQueryVariables>) {
+export function useGetUnitsQuery(baseOptions?: Apollo.QueryHookOptions<GetUnitsQuery, GetUnitsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UnitsQuery, UnitsQueryVariables>(UnitsDocument, options);
+        return Apollo.useQuery<GetUnitsQuery, GetUnitsQueryVariables>(GetUnitsDocument, options);
       }
-export function useUnitsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UnitsQuery, UnitsQueryVariables>) {
+export function useGetUnitsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUnitsQuery, GetUnitsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UnitsQuery, UnitsQueryVariables>(UnitsDocument, options);
+          return Apollo.useLazyQuery<GetUnitsQuery, GetUnitsQueryVariables>(GetUnitsDocument, options);
         }
-export type UnitsQueryHookResult = ReturnType<typeof useUnitsQuery>;
-export type UnitsLazyQueryHookResult = ReturnType<typeof useUnitsLazyQuery>;
-export type UnitsQueryResult = Apollo.QueryResult<UnitsQuery, UnitsQueryVariables>;
+export type GetUnitsQueryHookResult = ReturnType<typeof useGetUnitsQuery>;
+export type GetUnitsLazyQueryHookResult = ReturnType<typeof useGetUnitsLazyQuery>;
+export type GetUnitsQueryResult = Apollo.QueryResult<GetUnitsQuery, GetUnitsQueryVariables>;
