@@ -1,4 +1,4 @@
-import { Menu } from '@headlessui/react'
+import { Button as ChakraButton, MenuButton } from '@chakra-ui/react'
 import { NextImage } from '../NextImage'
 
 interface ButtonProps {
@@ -20,12 +20,14 @@ export function Button({ buttonData, variant }: ButtonProps) {
       <span>{buttonData.title}</span>
     </button>
   ) : (
-    <Menu.Button
+    <MenuButton
+      as={ChakraButton}
+      leftIcon={
+        <NextImage source={buttonData.imgSource} alt={buttonData.title} />
+      }
       key={buttonData.title}
-      className="flex items-center w-full gap-3 p-4 transition-colors rounded-md shadow-md text-base-12 bg-base-3 hover:bg-base-4"
     >
-      <NextImage source={buttonData.imgSource} alt={buttonData.title} />
-      <span>{buttonData.title}</span>
-    </Menu.Button>
+      {buttonData.title}
+    </MenuButton>
   )
 }

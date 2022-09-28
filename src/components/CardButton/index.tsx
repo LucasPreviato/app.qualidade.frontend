@@ -1,5 +1,5 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import { Image, Link, Text } from '@chakra-ui/react'
+import NextLink from 'next/link'
 
 interface CardButtonProps {
   icon: string
@@ -10,13 +10,22 @@ interface CardButtonProps {
 
 export function CardButton({ icon, title, path, alt }: CardButtonProps) {
   return (
-    <Link href={path}>
-      <a className="flex flex-col items-center justify-center w-24 h-24 gap-4 p-4 text-center transition-all rounded-md shadow-md bg-base-3 hover:bg-base-4 focus:ring-2 focus:outline-none focus:ring-brand-7 focus:-translate-y-2">
-        <div className="relative w-7 h-7">
-          <Image src={icon} alt={alt} width={40} height={40} layout="fixed" />
-        </div>
-        <p className="text-xs font-medium text-dark-200">{title}</p>
-      </a>
-    </Link>
+    <NextLink href={path} passHref>
+      <Link
+        bg="gray.700"
+        display="flex"
+        flexDir="column"
+        alignItems="center"
+        justifyContent="center"
+        gap={2}
+        p="1"
+        h={24}
+        w={24}
+        rounded="md"
+      >
+        <Image src={icon} alt={alt} w={10} h={10} />
+        <Text>{title}</Text>
+      </Link>
+    </NextLink>
   )
 }
