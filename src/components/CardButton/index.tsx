@@ -17,11 +17,15 @@ export function CardButton({ icon, title, path, alt }: CardButtonProps) {
         flexDir="column"
         alignItems="center"
         justifyContent="center"
+        textAlign="center"
         gap={2}
         p="1"
-        h={24}
-        w={24}
+        h={32}
+        w={32}
         rounded="md"
+        _focus={{
+          transform: 'translateY(-8px)',
+        }}
       >
         <Image src={icon} alt={alt} w={10} h={10} />
         <Text>{title}</Text>

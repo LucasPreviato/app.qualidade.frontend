@@ -1,4 +1,8 @@
-import { extendTheme, ThemeOverride } from '@chakra-ui/react'
+import {
+  extendTheme,
+  ThemeOverride,
+  withDefaultColorScheme,
+} from '@chakra-ui/react'
 
 // 2. Extend the theme to include custom colors, fonts, etc
 const overrides: ThemeOverride = {
@@ -41,4 +45,9 @@ const overrides: ThemeOverride = {
   },
 }
 
-export const theme = extendTheme(overrides)
+export const theme = extendTheme(
+  overrides,
+  withDefaultColorScheme({
+    colorScheme: 'teal',
+  })
+)
