@@ -1,68 +1,22 @@
-import { Menu, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
-import { Button } from '../Button'
+import {
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
+  useDisclosure,
+  VStack,
+  Link,
+} from '@chakra-ui/react'
+import NextLink from 'next/link'
+import { useRouter } from 'next/router'
+import React, { useEffect } from 'react'
 import { Logo } from '../Logo'
-import { NavLink } from '../NavLink'
+import { NextImage } from '../NextImage'
 
 const menu = [
-  {
-    imgSource: '/assets/img/sidebar/iconRotina.svg',
-    title: 'Rotina',
-    menuItems: [
-      {
-        path: '/cadastro/colaboradores',
-        title: 'Colaboradores',
-      },
-      {
-        path: '/cadastro/colaboradores',
-        title: 'Colaboradores',
-      },
-      {
-        path: '/cadastro/colaboradores',
-        title: 'Colaboradores',
-      },
-    ],
-  },
-  {
-    imgSource: '/assets/img/sidebar/iconRH.svg',
-    title: 'Rh',
-    menuItems: [
-      {
-        path: '/rh',
-        title: 'Item',
-      },
-    ],
-  },
-  {
-    imgSource: '/assets/img/sidebar/iconEquipamento.svg',
-    title: 'Equipamento',
-    menuItems: [
-      {
-        path: '/equipamento',
-        title: 'Item',
-      },
-    ],
-  },
-  {
-    imgSource: '/assets/img/sidebar/iconAuditoria.svg',
-    title: 'Auditoria',
-    menuItems: [
-      {
-        path: '/auditoria',
-        title: 'Item',
-      },
-    ],
-  },
-  {
-    imgSource: '/assets/img/sidebar/iconFornecedores.svg',
-    title: 'Fornecedores',
-    menuItems: [
-      {
-        path: '/fornecedores',
-        title: 'Item',
-      },
-    ],
-  },
   {
     imgSource: '/assets/img/sidebar/iconCadastro.svg',
     title: 'Cadastro',
@@ -133,144 +87,58 @@ const menu = [
       },
     ],
   },
-  {
-    imgSource: '/assets/img/sidebar/iconRelatorios.svg',
-    title: 'Relatórios',
-    menuItems: [
-      {
-        path: '/relatórios',
-        title: 'Item',
-      },
-    ],
-  },
-  {
-    imgSource: '/assets/img/sidebar/iconIndicadores.svg',
-    title: 'Indicadores',
-    menuItems: [
-      {
-        path: '/indicadores',
-        title: 'Item',
-      },
-    ],
-  },
-  {
-    imgSource: '/assets/img/sidebar/iconDocumentos.svg',
-    title: 'Documentos',
-    menuItems: [
-      {
-        path: '/documentos',
-        title: 'Item',
-      },
-    ],
-  },
-  {
-    imgSource: '/assets/img/sidebar/iconContratos.svg',
-    title: 'Contratos',
-    menuItems: [
-      {
-        path: '/contratos',
-        title: 'Item',
-      },
-    ],
-  },
-  {
-    imgSource: '/assets/img/sidebar/iconManutencao.svg',
-    title: 'Manutenção',
-    menuItems: [
-      {
-        path: '/manutencao',
-        title: 'Item',
-      },
-    ],
-  },
-  {
-    imgSource: '/assets/img/sidebar/iconTecnicos.svg',
-    title: 'Técnicos',
-    menuItems: [
-      {
-        path: '/tecnicos',
-        title: 'Item',
-      },
-    ],
-  },
-  {
-    imgSource: '/assets/img/sidebar/iconControles.svg',
-    title: 'Controles',
-    menuItems: [
-      {
-        path: '/controles',
-        title: 'Item',
-      },
-    ],
-  },
-  {
-    imgSource: '/assets/img/sidebar/iconChamados.svg',
-    title: 'Chamados',
-    menuItems: [
-      {
-        path: '/chamados',
-        title: 'Item',
-      },
-    ],
-  },
-  {
-    imgSource: '/assets/img/sidebar/iconOutros.svg',
-    title: 'Outros',
-    menuItems: [
-      {
-        path: '/outros',
-        title: 'Item',
-      },
-    ],
-  },
-  {
-    imgSource: '/assets/img/sidebar/iconTI.svg',
-    title: 'Ti',
-    menuItems: [
-      {
-        path: '/ti',
-        title: 'Item',
-      },
-    ],
-  },
-  {
-    imgSource: '/assets/img/sidebar/iconMedicos.svg',
-    title: 'Médicos',
-    menuItems: [
-      {
-        path: '/medicos',
-        title: 'Item',
-      },
-    ],
-  },
 ]
 
 export function Sidebar() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const { events } = useRouter()
+
+  useEffect(() => {
+    events.on('routeChangeComplete', () => {
+      onClose()
+    })
+  }, [events, onClose])
+
   return (
-    <div className="flex flex-col h-screen gap-4 p-4 overflow-y-scroll max-w-max bg-base-2 scrollbar-none">
+    <VStack
+      pos="sticky"
+      inset="0"
+      h="100vh"
+      w="max-content"
+      p="6"
+      align="center"
+      spacing="4"
+      bg="gray.800"
+    >
       <Logo />
-      {menu.map((menu) => (
-        <Menu as="div" key={menu.title}>
-          <Button buttonData={menu} key={menu.title} />
-          <Transition
-            as={Fragment}
-            enter="transition-all ease-out duration-150"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-          >
-            <Menu.Items className="flex flex-col items-start w-full gap-2 p-3 mt-1 overflow-hidden rounded-md shadow-md bg-base-9 text-base-12 focus:outline-none">
-              {menu.menuItems.map((menuItem) => (
-                <Menu.Item key={menuItem.title} as="div" className="py-1">
-                  <NavLink href={menuItem.path}>{menuItem.title}</NavLink>
-                </Menu.Item>
-              ))}
-            </Menu.Items>
-          </Transition>
-        </Menu>
+      {menu.map((button) => (
+        <Button
+          key={button.title}
+          onClick={onOpen}
+          colorScheme="gray"
+          size="lg"
+          shadow="2xl"
+          leftIcon={<NextImage source={button.imgSource} />}
+        >
+          {button.title}
+        </Button>
       ))}
-    </div>
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Menu de cadastro</DrawerHeader>
+
+          <DrawerBody>
+            {menu.map((items) => (
+              <NextLink key={items.title} href="/cadastro/empresas" passHref>
+                <Link fontSize="lg">Empresas</Link>
+              </NextLink>
+            ))}
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    </VStack>
   )
 }

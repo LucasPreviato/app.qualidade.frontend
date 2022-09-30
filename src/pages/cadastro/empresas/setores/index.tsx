@@ -3,7 +3,6 @@ import { RiDeleteBin5Line as DeleteIcon } from 'react-icons/ri'
 import { MdAdd as AddIcon } from 'react-icons/md'
 import { Modal } from '../../../../components/Modal'
 import { NextPage } from 'next'
-import UnitForm from './UnitForm'
 import { useModal } from '../../../../contexts/ModalContext'
 import {
   Box,
@@ -20,6 +19,7 @@ import {
   Tr,
   VStack,
 } from '@chakra-ui/react'
+import DepartmentForm from './DeparmentForm'
 
 const heading = [
   {
@@ -29,20 +29,23 @@ const heading = [
     title: 'Nome',
   },
   {
-    title: 'E-mail',
-  },
-  {
     title: 'Responsável',
   },
   {
-    title: 'Telefone',
+    title: 'Ramal',
+  },
+  {
+    title: 'Unidade',
+  },
+  {
+    title: 'Sigla',
   },
   {
     title: 'Status',
   },
 ]
 
-const Unidades: NextPage = () => {
+const Setores: NextPage = () => {
   const { onOpen, isOpen, onClose } = useModal()
 
   return (
@@ -68,13 +71,6 @@ const Unidades: NextPage = () => {
               <Td>N/A</Td>
               <Td>N/A</Td>
               <Td>Teste</Td>
-            </Tr>
-            <Tr>
-              <Td>Teste</Td>
-              <Td>Teste</Td>
-              <Td>Teste</Td>
-              <Td>N/A</Td>
-              <Td>N/A</Td>
               <Td>Teste</Td>
             </Tr>
             <Tr>
@@ -83,6 +79,16 @@ const Unidades: NextPage = () => {
               <Td>Teste</Td>
               <Td>N/A</Td>
               <Td>N/A</Td>
+              <Td>Teste</Td>
+              <Td>Teste</Td>
+            </Tr>
+            <Tr>
+              <Td>Teste</Td>
+              <Td>Teste</Td>
+              <Td>Teste</Td>
+              <Td>N/A</Td>
+              <Td>N/A</Td>
+              <Td>Teste</Td>
               <Td>Teste</Td>
             </Tr>
           </Tbody>
@@ -116,11 +122,11 @@ const Unidades: NextPage = () => {
         </Box>
       </Flex>
 
-      <Modal isOpen={isOpen} onClose={onClose} title="Cadastro de Unidades">
-        <UnitForm />
+      <Modal isOpen={isOpen} onClose={onClose} title="Cadastro de Setores">
+        <DepartmentForm />
       </Modal>
     </VStack>
   )
 }
 
-export default Unidades
+export default Setores

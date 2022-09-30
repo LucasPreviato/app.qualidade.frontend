@@ -1,10 +1,7 @@
 import { GiSpyglass as LogIcon } from 'react-icons/gi'
 import { RiDeleteBin5Line as DeleteIcon } from 'react-icons/ri'
 import { MdAdd as AddIcon } from 'react-icons/md'
-import { Modal } from '../../../../components/Modal'
 import { NextPage } from 'next'
-import UnitForm from './UnitForm'
-import { useModal } from '../../../../contexts/ModalContext'
 import {
   Box,
   Button,
@@ -20,6 +17,8 @@ import {
   Tr,
   VStack,
 } from '@chakra-ui/react'
+import { useModal } from '../../../../contexts/ModalContext'
+import { Modal } from '../../../../components/Modal'
 
 const heading = [
   {
@@ -29,20 +28,20 @@ const heading = [
     title: 'Nome',
   },
   {
-    title: 'E-mail',
+    title: 'Nível',
   },
   {
-    title: 'Responsável',
+    title: 'Versão',
   },
   {
-    title: 'Telefone',
+    title: 'Data',
   },
   {
     title: 'Status',
   },
 ]
 
-const Unidades: NextPage = () => {
+const JobCategoriesAndOccupations: NextPage = () => {
   const { onOpen, isOpen, onClose } = useModal()
 
   return (
@@ -117,10 +116,10 @@ const Unidades: NextPage = () => {
       </Flex>
 
       <Modal isOpen={isOpen} onClose={onClose} title="Cadastro de Unidades">
-        <UnitForm />
+        <h2>Olá</h2>
       </Modal>
     </VStack>
   )
 }
 
-export default Unidades
+export default JobCategoriesAndOccupations

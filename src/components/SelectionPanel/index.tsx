@@ -1,4 +1,4 @@
-import { Popover } from '@headlessui/react'
+import { SimpleGrid } from '@chakra-ui/react'
 import { ReactNode } from 'react'
 
 interface SelectionPanelProps {
@@ -7,8 +7,8 @@ interface SelectionPanelProps {
 
 export function SelectionPanel({ children }: SelectionPanelProps) {
   return (
-    <Popover className="grid flex-1 grid-cols-6 gap-4 p-6 rounded w bg-dark-600 place-items-center place-content-start">
+    <SimpleGrid flex="1" spacing="10" columns={6} p="8">
       {children}
-    </Popover>
+    </SimpleGrid>
   )
 }

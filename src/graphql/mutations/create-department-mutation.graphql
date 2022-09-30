@@ -1,0 +1,10 @@
+mutation CreateDepartment($createDepartmentInput: CreateDepartmentInput!) {
+  createDepartment(createDepartmentInput: $createDepartmentInput) {
+    email
+    id
+    initials
+    name
+    phone
+    unitId
+  }
+}
