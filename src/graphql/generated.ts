@@ -1,11 +1,11 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+import gql from 'graphql-tag';
+import * as Urql from 'urql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions = {} as const;
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -13,50 +13,95 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  DateTime: any;
+};
+
+export type Collaborator = {
+  __typename?: 'Collaborator';
+  createdAt: Scalars['DateTime'];
+  department: ResolveDepartments;
+  email: Scalars['String'];
+  hireDate: Scalars['DateTime'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  phone?: Maybe<Scalars['String']>;
+  position: ResolvePositions;
+  unit: ResolveUnit;
+};
+
+export type CreateCollaboratorInput = {
+  departmentId: Scalars['Int'];
+  email: Scalars['String'];
+  name: Scalars['String'];
+  phone?: InputMaybe<Scalars['String']>;
+  positionId: Scalars['Int'];
+  unitId: Scalars['Int'];
 };
 
 export type CreateDepartmentInput = {
   email?: InputMaybe<Scalars['String']>;
-  initials: Scalars['String'];
+  initials?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
-  phone?: InputMaybe<Scalars['String']>;
-  unitId: Scalars['Int'];
+  unitId?: InputMaybe<Scalars['Int']>;
+};
+
+export type CreatePositionCategoryInput = {
+  name: Scalars['String'];
+};
+
+export type CreatePositionInput = {
+  alterations: Scalars['String'];
+  desiredEducation?: InputMaybe<Scalars['String']>;
+  desiredExperience?: InputMaybe<Scalars['String']>;
+  desiredQualifications?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  positionCategoryId: Scalars['Int'];
+  requiredEducation?: InputMaybe<Scalars['String']>;
+  requiredExperience?: InputMaybe<Scalars['String']>;
+  requiredQualifications?: InputMaybe<Scalars['String']>;
+  revisionAt: Scalars['DateTime'];
+  version: Scalars['Int'];
 };
 
 export type CreateUnitInput = {
-  email: Scalars['String'];
+  email?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
-  phone: Scalars['String'];
+  phone?: InputMaybe<Scalars['String']>;
 };
 
 export type Department = {
   __typename?: 'Department';
+  createdAt: Scalars['DateTime'];
   email?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  initials: Scalars['String'];
+  initials?: Maybe<Scalars['String']>;
   name: Scalars['String'];
-  phone?: Maybe<Scalars['String']>;
-  unit: Unit;
-  unitId: Scalars['Int'];
-};
-
-export type DepartmentInput = {
-  email?: InputMaybe<Scalars['String']>;
-  id: Scalars['Int'];
-  initials: Scalars['String'];
-  name: Scalars['String'];
-  phone?: InputMaybe<Scalars['String']>;
-  unit: UnitInput;
-  unitId: Scalars['Int'];
+  unit?: Maybe<ResolveUnit>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createCollaborator: Collaborator;
   createDepartment: Department;
+  createPosition: Position;
+  createPositionCategory: PositionCategory;
   createUnit: Unit;
+  removeCollaborator: Collaborator;
   removeDepartment: Department;
+  removePosition: Position;
+  removePositionCategory: PositionCategory;
   removeUnit: Unit;
+  updateCollaborator: Collaborator;
+  updateDepartment: Department;
+  updatePosition: Position;
+  updatePositionCategory: PositionCategory;
   updateUnit: Unit;
+  uploadFile: Scalars['Boolean'];
+};
+
+
+export type MutationCreateCollaboratorArgs = {
+  createCollaboratorInput: CreateCollaboratorInput;
 };
 
 
@@ -65,12 +110,37 @@ export type MutationCreateDepartmentArgs = {
 };
 
 
+export type MutationCreatePositionArgs = {
+  createPositionInput: CreatePositionInput;
+};
+
+
+export type MutationCreatePositionCategoryArgs = {
+  createPositionCategoryInput: CreatePositionCategoryInput;
+};
+
+
 export type MutationCreateUnitArgs = {
   createUnitInput: CreateUnitInput;
 };
 
 
+export type MutationRemoveCollaboratorArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type MutationRemoveDepartmentArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationRemovePositionArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationRemovePositionCategoryArgs = {
   id: Scalars['Int'];
 };
 
@@ -80,16 +150,78 @@ export type MutationRemoveUnitArgs = {
 };
 
 
+export type MutationUpdateCollaboratorArgs = {
+  updateCollaboratorInput: UpdateCollaboratorInput;
+};
+
+
+export type MutationUpdateDepartmentArgs = {
+  updateDepartmentInput: UpdateDepartmentInput;
+};
+
+
+export type MutationUpdatePositionArgs = {
+  updatePositionInput: UpdatePositionInput;
+};
+
+
+export type MutationUpdatePositionCategoryArgs = {
+  updatePositionCategoryInput: UpdatePositionCategoryInput;
+};
+
+
 export type MutationUpdateUnitArgs = {
   updateUnitInput: UpdateUnitInput;
 };
 
+
+export type MutationUploadFileArgs = {
+  args: Scalars['String'];
+};
+
+export type Position = {
+  __typename?: 'Position';
+  alterations: Scalars['String'];
+  collaborator: ResolveCollaborators;
+  createdAt: Scalars['DateTime'];
+  desiredEducation?: Maybe<Scalars['String']>;
+  desiredExperience?: Maybe<Scalars['String']>;
+  desiredQualifications?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  positionCategory: ResolvePositionCategories;
+  requiredEducation?: Maybe<Scalars['String']>;
+  requiredExperience?: Maybe<Scalars['String']>;
+  requiredQualifications?: Maybe<Scalars['String']>;
+  revisionAt: Scalars['DateTime'];
+  version: Scalars['Int'];
+};
+
+export type PositionCategory = {
+  __typename?: 'PositionCategory';
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  positions?: Maybe<Array<ResolvePositions>>;
+};
+
 export type Query = {
   __typename?: 'Query';
+  collaborator: Collaborator;
+  collaborators: Array<Collaborator>;
   department: Department;
   departments: Array<Department>;
+  position: Position;
+  positionCategories: Array<PositionCategory>;
+  positionCategory: PositionCategory;
+  positions: Array<Position>;
   unit: Unit;
   units: Array<Unit>;
+};
+
+
+export type QueryCollaboratorArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -98,23 +230,116 @@ export type QueryDepartmentArgs = {
 };
 
 
+export type QueryPositionArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryPositionCategoryArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type QueryUnitArgs = {
   id: Scalars['Int'];
 };
 
-export type Unit = {
-  __typename?: 'Unit';
+export type ResolveCollaborators = {
+  __typename?: 'ResolveCollaborators';
+  createdAt: Scalars['DateTime'];
   email: Scalars['String'];
+  hireDate: Scalars['DateTime'];
   id: Scalars['Int'];
   name: Scalars['String'];
-  phone: Scalars['String'];
+  phone?: Maybe<Scalars['String']>;
 };
 
-export type UnitInput = {
-  email: Scalars['String'];
+export type ResolveDepartments = {
+  __typename?: 'ResolveDepartments';
+  createdAt: Scalars['DateTime'];
+  email?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  initials?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
+export type ResolvePositionCategories = {
+  __typename?: 'ResolvePositionCategories';
+  createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
   name: Scalars['String'];
-  phone: Scalars['String'];
+};
+
+export type ResolvePositions = {
+  __typename?: 'ResolvePositions';
+  alterations: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  desiredEducation?: Maybe<Scalars['String']>;
+  desiredExperience?: Maybe<Scalars['String']>;
+  desiredQualifications?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  requiredEducation?: Maybe<Scalars['String']>;
+  requiredExperience?: Maybe<Scalars['String']>;
+  requiredQualifications?: Maybe<Scalars['String']>;
+  revisionAt: Scalars['DateTime'];
+  version: Scalars['Int'];
+};
+
+export type ResolveUnit = {
+  __typename?: 'ResolveUnit';
+  email?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  phone?: Maybe<Scalars['String']>;
+};
+
+export type Unit = {
+  __typename?: 'Unit';
+  collaborators?: Maybe<Array<ResolveCollaborators>>;
+  departments?: Maybe<Array<ResolveDepartments>>;
+  email?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  phone?: Maybe<Scalars['String']>;
+};
+
+export type UpdateCollaboratorInput = {
+  departmentId?: InputMaybe<Scalars['Int']>;
+  email?: InputMaybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['String']>;
+  positionId?: InputMaybe<Scalars['Int']>;
+  unitId?: InputMaybe<Scalars['Int']>;
+};
+
+export type UpdateDepartmentInput = {
+  email?: InputMaybe<Scalars['String']>;
+  id: Scalars['Int'];
+  initials?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  unitId?: InputMaybe<Scalars['Int']>;
+};
+
+export type UpdatePositionCategoryInput = {
+  id: Scalars['Int'];
+  name?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdatePositionInput = {
+  alterations?: InputMaybe<Scalars['String']>;
+  desiredEducation?: InputMaybe<Scalars['String']>;
+  desiredExperience?: InputMaybe<Scalars['String']>;
+  desiredQualifications?: InputMaybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name?: InputMaybe<Scalars['String']>;
+  positionCategoryId?: InputMaybe<Scalars['Int']>;
+  requiredEducation?: InputMaybe<Scalars['String']>;
+  requiredExperience?: InputMaybe<Scalars['String']>;
+  requiredQualifications?: InputMaybe<Scalars['String']>;
+  revisionAt?: InputMaybe<Scalars['DateTime']>;
+  version?: InputMaybe<Scalars['Int']>;
 };
 
 export type UpdateUnitInput = {
@@ -124,184 +349,23 @@ export type UpdateUnitInput = {
   phone?: InputMaybe<Scalars['String']>;
 };
 
-export type CreateDepartmentMutationVariables = Exact<{
-  createDepartmentInput: CreateDepartmentInput;
-}>;
-
-
-export type CreateDepartmentMutation = { __typename?: 'Mutation', createDepartment: { __typename?: 'Department', email?: string | null, id: number, initials: string, name: string, phone?: string | null, unitId: number } };
-
-export type CreateUnitMutationVariables = Exact<{
-  createUnitInput: CreateUnitInput;
-}>;
-
-
-export type CreateUnitMutation = { __typename?: 'Mutation', createUnit: { __typename?: 'Unit', email: string, name: string, id: number, phone: string } };
-
-export type GetDepartmentsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetDepartmentsQuery = { __typename?: 'Query', departments: Array<{ __typename?: 'Department', email?: string | null, id: number, initials: string, name: string, phone?: string | null, unitId: number, unit: { __typename?: 'Unit', email: string, id: number, name: string, phone: string } }> };
-
 export type GetUnitsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUnitsQuery = { __typename?: 'Query', units: Array<{ __typename?: 'Unit', email: string, id: number, name: string, phone: string }> };
+export type GetUnitsQuery = { __typename?: 'Query', units: Array<{ __typename?: 'Unit', id: number, email?: string | null, name: string, phone?: string | null }> };
 
 
-export const CreateDepartmentDocument = gql`
-    mutation CreateDepartment($createDepartmentInput: CreateDepartmentInput!) {
-  createDepartment(createDepartmentInput: $createDepartmentInput) {
-    email
-    id
-    initials
-    name
-    phone
-    unitId
-  }
-}
-    `;
-export type CreateDepartmentMutationFn = Apollo.MutationFunction<CreateDepartmentMutation, CreateDepartmentMutationVariables>;
-
-/**
- * __useCreateDepartmentMutation__
- *
- * To run a mutation, you first call `useCreateDepartmentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateDepartmentMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createDepartmentMutation, { data, loading, error }] = useCreateDepartmentMutation({
- *   variables: {
- *      createDepartmentInput: // value for 'createDepartmentInput'
- *   },
- * });
- */
-export function useCreateDepartmentMutation(baseOptions?: Apollo.MutationHookOptions<CreateDepartmentMutation, CreateDepartmentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateDepartmentMutation, CreateDepartmentMutationVariables>(CreateDepartmentDocument, options);
-      }
-export type CreateDepartmentMutationHookResult = ReturnType<typeof useCreateDepartmentMutation>;
-export type CreateDepartmentMutationResult = Apollo.MutationResult<CreateDepartmentMutation>;
-export type CreateDepartmentMutationOptions = Apollo.BaseMutationOptions<CreateDepartmentMutation, CreateDepartmentMutationVariables>;
-export const CreateUnitDocument = gql`
-    mutation CreateUnit($createUnitInput: CreateUnitInput!) {
-  createUnit(createUnitInput: $createUnitInput) {
-    email
-    name
-    id
-    phone
-  }
-}
-    `;
-export type CreateUnitMutationFn = Apollo.MutationFunction<CreateUnitMutation, CreateUnitMutationVariables>;
-
-/**
- * __useCreateUnitMutation__
- *
- * To run a mutation, you first call `useCreateUnitMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateUnitMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createUnitMutation, { data, loading, error }] = useCreateUnitMutation({
- *   variables: {
- *      createUnitInput: // value for 'createUnitInput'
- *   },
- * });
- */
-export function useCreateUnitMutation(baseOptions?: Apollo.MutationHookOptions<CreateUnitMutation, CreateUnitMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateUnitMutation, CreateUnitMutationVariables>(CreateUnitDocument, options);
-      }
-export type CreateUnitMutationHookResult = ReturnType<typeof useCreateUnitMutation>;
-export type CreateUnitMutationResult = Apollo.MutationResult<CreateUnitMutation>;
-export type CreateUnitMutationOptions = Apollo.BaseMutationOptions<CreateUnitMutation, CreateUnitMutationVariables>;
-export const GetDepartmentsDocument = gql`
-    query GetDepartments {
-  departments {
-    email
-    id
-    initials
-    name
-    phone
-    unit {
-      email
-      id
-      name
-      phone
-    }
-    unitId
-  }
-}
-    `;
-
-/**
- * __useGetDepartmentsQuery__
- *
- * To run a query within a React component, call `useGetDepartmentsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetDepartmentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetDepartmentsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetDepartmentsQuery(baseOptions?: Apollo.QueryHookOptions<GetDepartmentsQuery, GetDepartmentsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetDepartmentsQuery, GetDepartmentsQueryVariables>(GetDepartmentsDocument, options);
-      }
-export function useGetDepartmentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDepartmentsQuery, GetDepartmentsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetDepartmentsQuery, GetDepartmentsQueryVariables>(GetDepartmentsDocument, options);
-        }
-export type GetDepartmentsQueryHookResult = ReturnType<typeof useGetDepartmentsQuery>;
-export type GetDepartmentsLazyQueryHookResult = ReturnType<typeof useGetDepartmentsLazyQuery>;
-export type GetDepartmentsQueryResult = Apollo.QueryResult<GetDepartmentsQuery, GetDepartmentsQueryVariables>;
 export const GetUnitsDocument = gql`
     query GetUnits {
   units {
-    email
     id
+    email
     name
     phone
   }
 }
     `;
 
-/**
- * __useGetUnitsQuery__
- *
- * To run a query within a React component, call `useGetUnitsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUnitsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetUnitsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetUnitsQuery(baseOptions?: Apollo.QueryHookOptions<GetUnitsQuery, GetUnitsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUnitsQuery, GetUnitsQueryVariables>(GetUnitsDocument, options);
-      }
-export function useGetUnitsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUnitsQuery, GetUnitsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUnitsQuery, GetUnitsQueryVariables>(GetUnitsDocument, options);
-        }
-export type GetUnitsQueryHookResult = ReturnType<typeof useGetUnitsQuery>;
-export type GetUnitsLazyQueryHookResult = ReturnType<typeof useGetUnitsLazyQuery>;
-export type GetUnitsQueryResult = Apollo.QueryResult<GetUnitsQuery, GetUnitsQueryVariables>;
+export function useGetUnitsQuery(options?: Omit<Urql.UseQueryArgs<GetUnitsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetUnitsQuery, GetUnitsQueryVariables>({ query: GetUnitsDocument, ...options });
+};

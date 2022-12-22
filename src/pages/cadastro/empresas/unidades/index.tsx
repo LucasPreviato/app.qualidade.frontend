@@ -2,7 +2,7 @@ import { GiSpyglass as LogIcon } from 'react-icons/gi'
 import { RiDeleteBin5Line as DeleteIcon } from 'react-icons/ri'
 import { MdAdd as AddIcon } from 'react-icons/md'
 import { Modal } from '../../../../components/Modal'
-import { NextPage } from 'next'
+import { GetStaticProps, NextPage } from 'next'
 import UnitForm from './UnitForm'
 import { useModal } from '../../../../contexts/ModalContext'
 import {
@@ -20,6 +20,11 @@ import {
   Tr,
   VStack,
 } from '@chakra-ui/react'
+import {
+  useGetUnitsQuery,
+  GetUnitsDocument,
+} from '../../../../graphql/generated'
+import { client, ssrCache } from '../../../../lib/urql'
 
 const heading = [
   {
@@ -45,6 +50,8 @@ const heading = [
 const Unidades: NextPage = () => {
   const { onOpen, isOpen, onClose } = useModal()
 
+  const [{ data }] = useGetUnitsQuery()
+
   return (
     <VStack
       flex="1"
@@ -61,30 +68,12 @@ const Unidades: NextPage = () => {
             ))}
           </Thead>
           <Tbody>
-            <Tr>
-              <Td>jasgjasah</Td>
-              <Td>Testeasasassasasasassassaasasasas</Td>
-              <Td>Testeasasassasasasassassaasasasas</Td>
-              <Td>N/A</Td>
-              <Td>N/A</Td>
-              <Td>Teste</Td>
-            </Tr>
-            <Tr>
-              <Td>Teste</Td>
-              <Td>Teste</Td>
-              <Td>Teste</Td>
-              <Td>N/A</Td>
-              <Td>N/A</Td>
-              <Td>Teste</Td>
-            </Tr>
-            <Tr>
-              <Td>Teste</Td>
-              <Td>Teste</Td>
-              <Td>Teste</Td>
-              <Td>N/A</Td>
-              <Td>N/A</Td>
-              <Td>Teste</Td>
-            </Tr>
+            {data?.units.map((unit) => (
+              <Tr key={unit.id}>
+                <Td>{unit.name}</Td>
+                <Td>{unit.phone}</Td>
+              </Tr>
+            ))}
           </Tbody>
         </Table>
       </TableContainer>
@@ -124,3 +113,13 @@ const Unidades: NextPage = () => {
 }
 
 export default Unidades
+
+export const getStaticProps: GetStaticProps = async () => {
+  await client.query(GetUnitsDocument, {}).toPromise()
+
+  return {
+    props: {
+      urqlState: ssrCache.extractData(),
+    },
+  }
+}

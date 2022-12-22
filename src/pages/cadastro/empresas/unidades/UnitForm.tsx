@@ -1,9 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { removeEmptyFields } from '../../../../utils/removeEmptyFields'
 import { useModal } from '../../../../contexts/ModalContext'
-import { useCreateUnitMutation } from '../../../../graphql/generated'
 import { Button, Input, SimpleGrid } from '@chakra-ui/react'
 
 const UnitFormSchema = z.object({
@@ -24,7 +22,6 @@ type UnitFormProps = z.infer<typeof UnitFormSchema>
 
 export default function UnitForm() {
   const { onClose } = useModal()
-  const [createUnit] = useCreateUnitMutation()
 
   const {
     register,
@@ -35,19 +32,7 @@ export default function UnitForm() {
   })
 
   async function handleCollaboratorForm({ name, email, phone }: UnitFormProps) {
-    removeEmptyFields({ name, email, phone })
-
-    await createUnit({
-      variables: {
-        createUnitInput: {
-          email,
-          name,
-          phone,
-        },
-      },
-    })
-
-    onClose()
+    console.log({ name, email, phone })
   }
 
   return (

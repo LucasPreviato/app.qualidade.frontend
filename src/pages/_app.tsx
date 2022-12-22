@@ -1,14 +1,18 @@
 import type { AppProps } from 'next/app'
 import { Sidebar } from '../components/Sidebar'
 import { ModalProvider } from '../contexts/ModalContext'
-import { ApolloProvider } from '@apollo/client'
-import { client } from '../lib/apollo'
 import { ChakraProvider, Flex } from '@chakra-ui/react'
 import { theme } from '../theme'
+import { Provider } from 'urql'
+import { client, ssrCache } from '../lib/urql'
 
 function MyApp({ Component, pageProps }: AppProps) {
+  if (pageProps.urqlState) {
+    ssrCache.restoreData(pageProps.urqlState)
+  }
+
   return (
-    <ApolloProvider client={client}>
+    <Provider value={client}>
       <ChakraProvider resetCSS theme={theme}>
         <ModalProvider>
           <Flex>
@@ -17,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </Flex>
         </ModalProvider>
       </ChakraProvider>
-    </ApolloProvider>
+    </Provider>
   )
 }
 
