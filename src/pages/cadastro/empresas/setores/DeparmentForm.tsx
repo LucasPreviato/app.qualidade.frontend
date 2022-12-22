@@ -3,7 +3,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { removeEmptyFields } from '../../../../utils/removeEmptyFields'
 import { useModal } from '../../../../contexts/ModalContext'
-import { useCreateDepartmentMutation } from '../../../../graphql/generated'
 import { Button, Input, SimpleGrid } from '@chakra-ui/react'
 
 const DepartmentFormSchema = z.object({
@@ -17,7 +16,6 @@ type DepartmentFormProps = z.infer<typeof DepartmentFormSchema>
 
 export default function DepartmentForm() {
   const { onClose } = useModal()
-  const [createDepartment] = useCreateDepartmentMutation()
 
   const {
     register,
@@ -34,17 +32,7 @@ export default function DepartmentForm() {
     unitId,
   }: DepartmentFormProps) {
     removeEmptyFields({ name, email, initials, unitId })
-
-    await createDepartment({
-      variables: {
-        createDepartmentInput: {
-          name,
-          email,
-          initials,
-          unitId,
-        },
-      },
-    })
+    console.log(name, email, initials, unitId)
 
     onClose()
   }
