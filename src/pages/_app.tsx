@@ -1,10 +1,10 @@
 import type { AppProps } from 'next/app'
 import { Sidebar } from '../components/Sidebar'
 import { ModalProvider } from '../contexts/ModalContext'
-import { ChakraProvider, Flex } from '@chakra-ui/react'
-import { theme } from '../theme'
+import { Box, ChakraProvider, Flex } from '@chakra-ui/react'
 import { Provider } from 'urql'
 import { client, ssrCache } from '../lib/urql'
+import { theme } from '../styles/theme'
 
 function MyApp({ Component, pageProps }: AppProps) {
   if (pageProps.urqlState) {
@@ -15,10 +15,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     <Provider value={client}>
       <ChakraProvider resetCSS theme={theme}>
         <ModalProvider>
-          <Flex>
+          <Box h="100vh">
             <Sidebar />
-            <Component {...pageProps} />
-          </Flex>
+            <Box w="calc(100vw - 200px)" ml="auto">
+              <Component {...pageProps} />
+            </Box>
+          </Box>
         </ModalProvider>
       </ChakraProvider>
     </Provider>

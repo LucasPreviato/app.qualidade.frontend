@@ -19,35 +19,20 @@ import {
 } from '@chakra-ui/react'
 import { useModal } from '../../../../contexts/ModalContext'
 import { Modal } from '../../../../components/Modal'
-
-const heading = [
-  {
-    title: 'ID',
-  },
-  {
-    title: 'Nome',
-  },
-  {
-    title: 'Nível',
-  },
-  {
-    title: 'Versão',
-  },
-  {
-    title: 'Data',
-  },
-  {
-    title: 'Status',
-  },
-]
+import { PositionForm } from './PositionForm'
+import { heading } from '../../../../constants/positionsTableHead'
+import { useGetPositionsQuery } from '../../../../graphql/generated'
 
 const JobCategoriesAndOccupations: NextPage = () => {
   const { onOpen, isOpen, onClose } = useModal()
+
+  const [{ data }] = useGetPositionsQuery()
 
   return (
     <VStack
       flex="1"
       p="6"
+      h="100vh"
       spacing={8}
       align="flex-start"
       justify="space-between"
@@ -60,30 +45,15 @@ const JobCategoriesAndOccupations: NextPage = () => {
             ))}
           </Thead>
           <Tbody>
-            <Tr>
-              <Td>jasgjasah</Td>
-              <Td>Testeasasassasasasassassaasasasas</Td>
-              <Td>Testeasasassasasasassassaasasasas</Td>
-              <Td>N/A</Td>
-              <Td>N/A</Td>
-              <Td>Teste</Td>
-            </Tr>
-            <Tr>
-              <Td>Teste</Td>
-              <Td>Teste</Td>
-              <Td>Teste</Td>
-              <Td>N/A</Td>
-              <Td>N/A</Td>
-              <Td>Teste</Td>
-            </Tr>
-            <Tr>
-              <Td>Teste</Td>
-              <Td>Teste</Td>
-              <Td>Teste</Td>
-              <Td>N/A</Td>
-              <Td>N/A</Td>
-              <Td>Teste</Td>
-            </Tr>
+            {data?.positions.map((position) => (
+              <Tr key={position.id}>
+                <Td>{position.id}</Td>
+                <Td>{position.name}</Td>
+                <Td>{position.positionCategory.name}</Td>
+                <Td>{position.version}</Td>
+                <Td>{position.revisionAt}</Td>
+              </Tr>
+            ))}
           </Tbody>
         </Table>
       </TableContainer>
@@ -116,7 +86,7 @@ const JobCategoriesAndOccupations: NextPage = () => {
       </Flex>
 
       <Modal isOpen={isOpen} onClose={onClose} title="Cadastro de Unidades">
-        <h2>Olá</h2>
+        <PositionForm />
       </Modal>
     </VStack>
   )

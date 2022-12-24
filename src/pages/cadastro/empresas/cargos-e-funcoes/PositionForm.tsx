@@ -5,37 +5,47 @@ import { useModal } from '../../../../contexts/ModalContext'
 import { Button, Input, SimpleGrid } from '@chakra-ui/react'
 import {
   GetUnitsDocument,
-  useCreateUnitMutation,
+  useCreatePositionMutation,
 } from '../../../../graphql/generated'
 import { GetStaticProps } from 'next'
 import { client, ssrCache } from '../../../../lib/urql'
 
-const UnitFormSchema = z.object({
+const PositionFormSchema = z.object({
   name: z.string().min(1, 'O Nome é obrigatório'),
-  phone: z.string().optional().nullable(),
-  email: z.string().optional().nullable(),
+  positionCategoryId: z.number().int(),
+  version: z.number().int(),
+  revisionAt: z.date(),
+  alterations: z.string().min(1, 'Descreva as alterações '),
 })
 
-type UnitFormProps = z.infer<typeof UnitFormSchema>
+type PositionFormProps = z.infer<typeof PositionFormSchema>
 
-export default function UnitForm() {
+export function PositionForm() {
   const { onClose } = useModal()
-  const [{}, createUnit] = useCreateUnitMutation()
+  const [{}, createPosition] = useCreatePositionMutation()
 
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<UnitFormProps>({
-    resolver: zodResolver(UnitFormSchema),
+  } = useForm<PositionFormProps>({
+    resolver: zodResolver(PositionFormSchema),
   })
 
-  async function handleCollaboratorForm({ name, email, phone }: UnitFormProps) {
-    await createUnit({
-      createUnitInput: {
+  async function handleCollaboratorForm({
+    name,
+    alterations,
+    positionCategoryId,
+    version,
+    revisionAt,
+  }: PositionFormProps) {
+    await createPosition({
+      createPositionInput: {
         name,
-        email,
-        phone,
+        alterations,
+        positionCategoryId,
+        revisionAt,
+        version,
       },
     })
 
@@ -61,16 +71,30 @@ export default function UnitForm() {
 
       <Input
         colorScheme="teal"
-        type="email"
-        placeholder="E-mail"
-        {...register('email')}
+        type="number"
+        placeholder="Nível"
+        {...register('positionCategoryId', { valueAsNumber: true })}
       />
 
       <Input
         colorScheme="teal"
         type="number"
-        placeholder="Telefone"
-        {...register('phone')}
+        placeholder="Versão"
+        {...register('version', { valueAsNumber: true })}
+      />
+
+      <Input
+        colorScheme="teal"
+        type="text"
+        placeholder="Alterações"
+        {...register('alterations')}
+      />
+
+      <Input
+        colorScheme="teal"
+        type="date"
+        placeholder="Data de revisão"
+        {...register('revisionAt')}
       />
 
       <Button type="submit" disabled={isSubmitting} colorScheme="teal">

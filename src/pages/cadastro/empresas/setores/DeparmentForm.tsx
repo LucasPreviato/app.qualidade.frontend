@@ -4,18 +4,21 @@ import * as z from 'zod'
 import { removeEmptyFields } from '../../../../utils/removeEmptyFields'
 import { useModal } from '../../../../contexts/ModalContext'
 import { Button, Input, SimpleGrid } from '@chakra-ui/react'
+import { useCreateDepartmentMutation } from '../../../../graphql/generated'
 
 const DepartmentFormSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório!'),
-  email: z.string().email(),
-  initials: z.string(),
-  unitId: z.number().int(),
+  email: z.string().email().optional().nullable(),
+  initials: z.string().optional().nullable(),
+  unitId: z.number().int().optional().nullable(),
 })
 
 type DepartmentFormProps = z.infer<typeof DepartmentFormSchema>
 
 export default function DepartmentForm() {
   const { onClose } = useModal()
+
+  const [{}, createDepartment] = useCreateDepartmentMutation()
 
   const {
     register,
@@ -32,7 +35,15 @@ export default function DepartmentForm() {
     unitId,
   }: DepartmentFormProps) {
     removeEmptyFields({ name, email, initials, unitId })
-    console.log(name, email, initials, unitId)
+
+    await createDepartment({
+      createDepartmentInput: {
+        name,
+        email,
+        initials,
+        unitId,
+      },
+    })
 
     onClose()
   }
@@ -71,7 +82,7 @@ export default function DepartmentForm() {
       <Input
         colorScheme="teal"
         type="number"
-        placeholder="E-mail"
+        placeholder="Unidade"
         {...register('unitId', { valueAsNumber: true })}
       />
 

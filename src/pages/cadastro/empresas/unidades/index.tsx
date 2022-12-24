@@ -25,27 +25,7 @@ import {
   GetUnitsDocument,
 } from '../../../../graphql/generated'
 import { client, ssrCache } from '../../../../lib/urql'
-
-const heading = [
-  {
-    title: 'ID',
-  },
-  {
-    title: 'Nome',
-  },
-  {
-    title: 'E-mail',
-  },
-  {
-    title: 'Responsável',
-  },
-  {
-    title: 'Telefone',
-  },
-  {
-    title: 'Status',
-  },
-]
+import { heading } from '../../../../constants/unitsTableHead'
 
 const Unidades: NextPage = () => {
   const { onOpen, isOpen, onClose } = useModal()
@@ -71,6 +51,7 @@ const Unidades: NextPage = () => {
             {data?.units.map((unit) => (
               <Tr key={unit.id}>
                 <Td>{unit.name}</Td>
+                <Td>{unit.email}</Td>
                 <Td>{unit.phone}</Td>
               </Tr>
             ))}

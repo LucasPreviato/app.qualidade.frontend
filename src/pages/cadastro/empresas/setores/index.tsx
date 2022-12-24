@@ -2,7 +2,7 @@ import { GiSpyglass as LogIcon } from 'react-icons/gi'
 import { RiDeleteBin5Line as DeleteIcon } from 'react-icons/ri'
 import { MdAdd as AddIcon } from 'react-icons/md'
 import { Modal } from '../../../../components/Modal'
-import { NextPage } from 'next'
+import { GetStaticProps, NextPage } from 'next'
 import { useModal } from '../../../../contexts/ModalContext'
 import {
   Box,
@@ -20,33 +20,17 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import DepartmentForm from './DeparmentForm'
-
-const heading = [
-  {
-    title: 'ID',
-  },
-  {
-    title: 'Nome',
-  },
-  {
-    title: 'Responsável',
-  },
-  {
-    title: 'Ramal',
-  },
-  {
-    title: 'Unidade',
-  },
-  {
-    title: 'Sigla',
-  },
-  {
-    title: 'Status',
-  },
-]
+import {
+  GetDepartmentsDocument,
+  useGetDepartmentsQuery,
+} from '../../../../graphql/generated'
+import { heading } from '../../../../constants/departmentsTableHead'
+import { client, ssrCache } from '../../../../lib/urql'
 
 const Setores: NextPage = () => {
   const { onOpen, isOpen, onClose } = useModal()
+
+  const [{ data }] = useGetDepartmentsQuery()
 
   return (
     <VStack
@@ -64,33 +48,15 @@ const Setores: NextPage = () => {
             ))}
           </Thead>
           <Tbody>
-            <Tr>
-              <Td>jasgjasah</Td>
-              <Td>Testeasasassasasasassassaasasasas</Td>
-              <Td>Testeasasassasasasassassaasasasas</Td>
-              <Td>N/A</Td>
-              <Td>N/A</Td>
-              <Td>Teste</Td>
-              <Td>Teste</Td>
-            </Tr>
-            <Tr>
-              <Td>Teste</Td>
-              <Td>Teste</Td>
-              <Td>Teste</Td>
-              <Td>N/A</Td>
-              <Td>N/A</Td>
-              <Td>Teste</Td>
-              <Td>Teste</Td>
-            </Tr>
-            <Tr>
-              <Td>Teste</Td>
-              <Td>Teste</Td>
-              <Td>Teste</Td>
-              <Td>N/A</Td>
-              <Td>N/A</Td>
-              <Td>Teste</Td>
-              <Td>Teste</Td>
-            </Tr>
+            {data?.departments.map((department) => (
+              <Tr key={department.id}>
+                <Td>{department.id}</Td>
+                <Td>{department.name}</Td>
+                <Td>{department?.unit?.name}</Td>
+                <Td>{department.email}</Td>
+                <Td>{department.initials}</Td>
+              </Tr>
+            ))}
           </Tbody>
         </Table>
       </TableContainer>
@@ -130,3 +96,13 @@ const Setores: NextPage = () => {
 }
 
 export default Setores
+
+export const getStaticProps: GetStaticProps = async () => {
+  await client.query(GetDepartmentsDocument, {}).toPromise()
+
+  return {
+    props: {
+      urqlState: ssrCache.extractData(),
+    },
+  }
+}

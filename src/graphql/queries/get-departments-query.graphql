@@ -1,0 +1,11 @@
+query GetDepartments {
+  departments {
+    id
+    initials
+    name
+    email
+    unit {
+      name
+    }
+  }
+}

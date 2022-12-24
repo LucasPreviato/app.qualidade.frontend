@@ -1,0 +1,11 @@
+query GetPositions {
+  positions {
+    id
+    name
+    version
+    revisionAt
+    positionCategory {
+      name
+    }
+  }
+}
