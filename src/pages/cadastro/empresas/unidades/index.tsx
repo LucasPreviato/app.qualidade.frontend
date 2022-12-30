@@ -33,23 +33,18 @@ const Unidades: NextPage = () => {
   const [{ data }] = useGetUnitsQuery()
 
   return (
-    <VStack
-      flex="1"
-      p="6"
-      spacing={8}
-      align="flex-start"
-      justify="space-between"
-    >
+    <VStack h="100vh" p="6" justify="space-between">
       <TableContainer w="full">
-        <Table variant="striped" colorScheme="teal" size="lg">
+        <Table variant="striped" colorScheme="teal" size="sm">
           <Thead>
             {heading.map((head) => (
               <Th key={head.title}>{head.title}</Th>
             ))}
           </Thead>
-          <Tbody>
+          <Tbody overflowX="scroll">
             {data?.units.map((unit) => (
               <Tr key={unit.id}>
+                <Td>{unit.id}</Td>
                 <Td>{unit.name}</Td>
                 <Td>{unit.email}</Td>
                 <Td>{unit.phone}</Td>

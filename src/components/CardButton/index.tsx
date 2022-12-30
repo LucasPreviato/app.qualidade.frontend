@@ -23,7 +23,8 @@ export function CardButton({ icon, title, path, alt }: CardButtonProps) {
         h={32}
         w={32}
         rounded="md"
-        _focus={{
+        transition="transform 0.2s"
+        _hover={{
           transform: 'translateY(-8px)',
         }}
       >

@@ -26,6 +26,7 @@ export type Collaborator = {
   __typename?: 'Collaborator'
   createdAt: Scalars['DateTime']
   department: ResolveDepartments
+  documents?: Maybe<Array<ResolveDocuments>>
   email: Scalars['String']
   hireDate: Scalars['DateTime']
   id: Scalars['Int']
@@ -49,6 +50,29 @@ export type CreateDepartmentInput = {
   initials?: InputMaybe<Scalars['String']>
   name: Scalars['String']
   unitId?: InputMaybe<Scalars['Int']>
+}
+
+export type CreateDocumentInput = {
+  approverAt?: InputMaybe<Scalars['DateTime']>
+  approverId?: InputMaybe<Scalars['Int']>
+  departmentId: Scalars['Int']
+  documentCategoryId: Scalars['Int']
+  elaboratorAt?: InputMaybe<Scalars['DateTime']>
+  elaboratorId: Scalars['Int']
+  fileURL?: InputMaybe<Scalars['String']>
+  name: Scalars['String']
+  pdfURL?: InputMaybe<Scalars['String']>
+  reference?: InputMaybe<Scalars['String']>
+  revisorAt?: InputMaybe<Scalars['DateTime']>
+  revisorId?: InputMaybe<Scalars['Int']>
+  status?: InputMaybe<DocumentStatus>
+  unitId: Scalars['Int']
+  updatedAt?: InputMaybe<Scalars['DateTime']>
+}
+
+export type CreateDocumentsCategoryInput = {
+  /** Example field (placeholder) */
+  exampleField: Scalars['Int']
 }
 
 export type CreatePositionCategoryInput = {
@@ -85,24 +109,82 @@ export type Department = {
   unit?: Maybe<ResolveUnit>
 }
 
+export type Document = {
+  __typename?: 'Document'
+  DocumentCategory: ResolveDocumentsCategory
+  approver?: Maybe<ResolveCollaborators>
+  approverAt?: Maybe<Scalars['DateTime']>
+  createdAt: Scalars['DateTime']
+  department: ResolveDepartments
+  elaborator: ResolveCollaborators
+  elaboratorAt?: Maybe<Scalars['DateTime']>
+  fileURL?: Maybe<Scalars['String']>
+  id: Scalars['Int']
+  name: Scalars['String']
+  pdfURL?: Maybe<Scalars['String']>
+  reference?: Maybe<Scalars['String']>
+  revisor?: Maybe<ResolveCollaborators>
+  revisorAt?: Maybe<Scalars['DateTime']>
+  status: DocumentStatus
+  unit: ResolveUnit
+  updatedAt?: Maybe<Scalars['DateTime']>
+}
+
+export enum DocumentCodeFormat {
+  NumberedByDepartment = 'NUMBERED_BY_DEPARTMENT',
+  NumberedSeparatelyByDepartment = 'NUMBERED_SEPARATELY_BY_DEPARTMENT',
+  Simple = 'SIMPLE',
+}
+
+export enum DocumentStatus {
+  Approval = 'APPROVAL',
+  Approved = 'APPROVED',
+  Elaboration = 'ELABORATION',
+  Inative = 'INATIVE',
+  Obsolete = 'OBSOLETE',
+  Rejected = 'REJECTED',
+  Revision = 'REVISION',
+}
+
+export enum DocumentType {
+  Excel = 'EXCEL',
+  Pdf = 'PDF',
+  Word = 'WORD',
+}
+
+export type DocumentsCategory = {
+  __typename?: 'DocumentsCategory'
+  codeFormat: DocumentCodeFormat
+  createdAt: Scalars['DateTime']
+  documentType: DocumentType
+  documents?: Maybe<Array<ResolveDocuments>>
+  id: Scalars['Int']
+  name: Scalars['String']
+}
+
 export type Mutation = {
   __typename?: 'Mutation'
   createCollaborator: Collaborator
   createDepartment: Department
+  createDocument: Document
+  createDocumentsCategory: DocumentsCategory
   createPosition: Position
   createPositionCategory: PositionCategory
   createUnit: Unit
   removeCollaborator: Collaborator
   removeDepartment: Department
+  removeDocument: Document
+  removeDocumentsCategory: DocumentsCategory
   removePosition: Position
   removePositionCategory: PositionCategory
   removeUnit: Unit
   updateCollaborator: Collaborator
   updateDepartment: Department
+  updateDocument: Document
+  updateDocumentsCategory: DocumentsCategory
   updatePosition: Position
   updatePositionCategory: PositionCategory
   updateUnit: Unit
-  uploadFile: Scalars['Boolean']
 }
 
 export type MutationCreateCollaboratorArgs = {
@@ -111,6 +193,14 @@ export type MutationCreateCollaboratorArgs = {
 
 export type MutationCreateDepartmentArgs = {
   createDepartmentInput: CreateDepartmentInput
+}
+
+export type MutationCreateDocumentArgs = {
+  createDocumentInput: CreateDocumentInput
+}
+
+export type MutationCreateDocumentsCategoryArgs = {
+  createDocumentsCategoryInput: CreateDocumentsCategoryInput
 }
 
 export type MutationCreatePositionArgs = {
@@ -130,6 +220,14 @@ export type MutationRemoveCollaboratorArgs = {
 }
 
 export type MutationRemoveDepartmentArgs = {
+  id: Scalars['Int']
+}
+
+export type MutationRemoveDocumentArgs = {
+  id: Scalars['Int']
+}
+
+export type MutationRemoveDocumentsCategoryArgs = {
   id: Scalars['Int']
 }
 
@@ -153,6 +251,14 @@ export type MutationUpdateDepartmentArgs = {
   updateDepartmentInput: UpdateDepartmentInput
 }
 
+export type MutationUpdateDocumentArgs = {
+  updateDocumentInput: UpdateDocumentInput
+}
+
+export type MutationUpdateDocumentsCategoryArgs = {
+  updateDocumentsCategoryInput: UpdateDocumentsCategoryInput
+}
+
 export type MutationUpdatePositionArgs = {
   updatePositionInput: UpdatePositionInput
 }
@@ -163,10 +269,6 @@ export type MutationUpdatePositionCategoryArgs = {
 
 export type MutationUpdateUnitArgs = {
   updateUnitInput: UpdateUnitInput
-}
-
-export type MutationUploadFileArgs = {
-  args: Scalars['String']
 }
 
 export type Position = {
@@ -201,6 +303,10 @@ export type Query = {
   collaborators: Array<Collaborator>
   department: Department
   departments: Array<Department>
+  document: Document
+  documents: Array<Document>
+  documentsCategories: Array<DocumentsCategory>
+  documentsCategory: DocumentsCategory
   position: Position
   positionCategories: Array<PositionCategory>
   positionCategory: PositionCategory
@@ -214,6 +320,14 @@ export type QueryCollaboratorArgs = {
 }
 
 export type QueryDepartmentArgs = {
+  id: Scalars['Int']
+}
+
+export type QueryDocumentArgs = {
+  id: Scalars['Int']
+}
+
+export type QueryDocumentsCategoryArgs = {
   id: Scalars['Int']
 }
 
@@ -245,6 +359,30 @@ export type ResolveDepartments = {
   email?: Maybe<Scalars['String']>
   id: Scalars['Int']
   initials?: Maybe<Scalars['String']>
+  name: Scalars['String']
+}
+
+export type ResolveDocuments = {
+  __typename?: 'ResolveDocuments'
+  approverAt?: Maybe<Scalars['DateTime']>
+  createdAt: Scalars['DateTime']
+  elaboratorAt?: Maybe<Scalars['DateTime']>
+  fileURL?: Maybe<Scalars['String']>
+  id: Scalars['Int']
+  name: Scalars['String']
+  pdfURL?: Maybe<Scalars['String']>
+  reference?: Maybe<Scalars['String']>
+  revisorAt?: Maybe<Scalars['DateTime']>
+  status: DocumentStatus
+  updatedAt?: Maybe<Scalars['DateTime']>
+}
+
+export type ResolveDocumentsCategory = {
+  __typename?: 'ResolveDocumentsCategory'
+  codeFormat: DocumentCodeFormat
+  createdAt: Scalars['DateTime']
+  documentType: DocumentType
+  id: Scalars['Int']
   name: Scalars['String']
 }
 
@@ -283,6 +421,7 @@ export type Unit = {
   __typename?: 'Unit'
   collaborators?: Maybe<Array<ResolveCollaborators>>
   departments?: Maybe<Array<ResolveDepartments>>
+  documents?: Maybe<Array<ResolveDocuments>>
   email?: Maybe<Scalars['String']>
   id: Scalars['Int']
   name: Scalars['String']
@@ -305,6 +444,31 @@ export type UpdateDepartmentInput = {
   initials?: InputMaybe<Scalars['String']>
   name?: InputMaybe<Scalars['String']>
   unitId?: InputMaybe<Scalars['Int']>
+}
+
+export type UpdateDocumentInput = {
+  approverAt?: InputMaybe<Scalars['DateTime']>
+  approverId?: InputMaybe<Scalars['Int']>
+  departmentId?: InputMaybe<Scalars['Int']>
+  documentCategoryId?: InputMaybe<Scalars['Int']>
+  elaboratorAt?: InputMaybe<Scalars['DateTime']>
+  elaboratorId?: InputMaybe<Scalars['Int']>
+  fileURL?: InputMaybe<Scalars['String']>
+  id: Scalars['Int']
+  name?: InputMaybe<Scalars['String']>
+  pdfURL?: InputMaybe<Scalars['String']>
+  reference?: InputMaybe<Scalars['String']>
+  revisorAt?: InputMaybe<Scalars['DateTime']>
+  revisorId?: InputMaybe<Scalars['Int']>
+  status?: InputMaybe<DocumentStatus>
+  unitId?: InputMaybe<Scalars['Int']>
+  updatedAt?: InputMaybe<Scalars['DateTime']>
+}
+
+export type UpdateDocumentsCategoryInput = {
+  /** Example field (placeholder) */
+  exampleField?: InputMaybe<Scalars['Int']>
+  id: Scalars['Int']
 }
 
 export type UpdatePositionCategoryInput = {

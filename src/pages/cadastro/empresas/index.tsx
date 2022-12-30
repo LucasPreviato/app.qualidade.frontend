@@ -18,6 +18,11 @@ const CardButtonSelection = [
     icon: '/assets/img/sidebar/iconRH.svg',
     path: '/cadastro/empresas/cargos-e-funcoes',
   },
+  {
+    title: 'Colaboradores',
+    icon: '/assets/img/sidebar/iconRH.svg',
+    path: '/cadastro/empresas/colaboradores',
+  },
 ]
 
 const Empresas: NextPage = () => {

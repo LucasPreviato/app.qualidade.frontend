@@ -1,81 +1,38 @@
 import {
   Button,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
-  useDisclosure,
+  Divider,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   VStack,
-  Link,
 } from '@chakra-ui/react'
-import NextLink from 'next/link'
-import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import Link from 'next/link'
 import { menu } from '../../constants/sidebarMenu'
-import { Logo } from '../Logo'
-import { NextImage } from '../NextImage'
 
 export function Sidebar() {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-
-  const { events } = useRouter()
-
-  useEffect(() => {
-    events.on('routeChangeComplete', () => {
-      onClose()
-    })
-  }, [events, onClose])
-
   return (
-    <VStack
-      pos="absolute"
-      inset="0"
-      maxW={200}
-      p="6"
-      align="center"
-      spacing="4"
-      bg="gray.700"
-    >
-      <Logo />
-      {menu.map((button) => (
-        <Button
-          key={button.title}
-          onClick={onOpen}
-          size="lg"
-          shadow="2xl"
-          leftIcon={<NextImage source={button.imgSource} />}
-        >
-          {button.title}
-        </Button>
-      ))}
-      <Drawer size="xs" isOpen={isOpen} placement="left" onClose={onClose}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>Menu de cadastro</DrawerHeader>
+    <VStack alignItems="stretch" p={4} spacing={4}>
+      <Button colorScheme="blue" size="lg">
+        <Link href="/">SunTech</Link>
+      </Button>
 
-          <DrawerBody
-            overflow="scroll"
-            sx={{
-              '::-webkit-scrollbar': {
-                display: 'none',
-              },
-            }}
-          >
-            <VStack alignItems="flex-start">
-              {menu.map((items) => (
-                <NextLink key={items.title} href="/" passHref>
-                  <Link fontSize="lg" color="gray.100">
-                    {items.title}
-                  </Link>
-                </NextLink>
+      <Divider />
+
+      <VStack alignItems="stretch">
+        {menu.map((menu) => (
+          <Menu key={menu.title} placement="bottom-start">
+            <MenuButton as={Button}>{menu.title}</MenuButton>
+            <MenuList>
+              {menu.menuItems.map((item) => (
+                <MenuItem key={item.title} justifyContent="center">
+                  <Link href={item.path}>{item.title}</Link>
+                </MenuItem>
               ))}
-            </VStack>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
+            </MenuList>
+          </Menu>
+        ))}
+      </VStack>
     </VStack>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
-import { CardButton } from '../../../components/CardButton'
-import { SelectionPanel } from '../../../components/SelectionPanel'
+import { CardButton } from '../../../../components/CardButton'
+import { SelectionPanel } from '../../../../components/SelectionPanel'
 
 const CardButtonSelection = [
   {
