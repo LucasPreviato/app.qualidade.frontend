@@ -1,4 +1,4 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
-  reactStrictMode: true,
-}
+const nextConfig = {}
+// eslint-disable-next-line no-undef
+module.exports = nextConfig
